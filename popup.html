@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>URL Webhook Clipper</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 320px;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    .settings-btn {
+      background: none;
+      color: #4b5563;
+      text-align: left;
+      padding: 4px 0;
+      font-size: 14px;
+    }
+    .settings-btn:hover {
+      background: none;
+      color: #1f2937;
+    }
+    #status {
+      padding: 8px;
+      border-radius: 4px;
+      display: none;
+    }
+    .success {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+    .error {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+    .select-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    label {
+      font-size: 14px;
+      color: #4b5563;
+    }
+    /* Config Dialog Styles */
+    .config-dialog {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: white;
+      z-index: 1000;
+      padding: 16px;
+      overflow-y: auto;
+    }
+    .config-dialog.active {
+      display: block;
+    }
+    .dialog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+      color: #4b5563;
+    }
+    .webhook-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .webhook-item {
+      border: 1px solid #e5e7eb;
+      padding: 12px;
+      border-radius: 6px;
+    }
+    .template-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .template-tag {
+      background: #e5e7eb;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .template-tag button {
+      background: none;
+      border: none;
+      color: #4b5563;
+      padding: 0;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .add-template {
+      background: none;
+      border: 1px dashed #d1d5db;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: #6b7280;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .add-webhook {
+      margin-top: 16px;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .delete-btn {
+      background-color: #ef4444;
+    }
+    .delete-btn:hover {
+      background-color: #dc2626;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>URL Webhook Clipper</h2>
+    <div class="select-group">
+      <label for="webhookSelect">Select Destination:</label>
+      <select id="webhookSelect"></select>
+    </div>
+    <div class="select-group">
+      <label for="templateSelect">Template:</label>
+      <select id="templateSelect"></select>
+    </div>
+    <div>
+      <label for="notes">Additional Notes:</label>
+      <textarea id="notes" placeholder="Enter additional notes..."></textarea>
+    </div>
+    <button id="sendBtn">Send to Webhook</button>
+    <button id="settingsBtn" class="settings-btn">⚙️ Configure Webhooks</button>
+    <div id="status"></div>
+  </div>
+
+  <!-- Configuration Dialog -->
+  <div id="configDialog" class="config-dialog">
+    <div class="dialog-header">
+      <h2>Configure Webhooks</h2>
+      <button class="close-btn" id="closeConfigBtn">×</button>
+    </div>
+    <div id="webhookList" class="webhook-list">
+      <!-- Webhook items will be inserted here -->
+    </div>
+    <button id="addWebhookBtn" class="add-webhook">+ Add New Webhook</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
