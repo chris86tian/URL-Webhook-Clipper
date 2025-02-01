@@ -90,13 +90,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Christian Götz
 
-🚀 Free German Community: Boost your Business Community mit KI: https://www.skool.com/boostyourbusine...
+🚀 Free German Community: Boost your Business Community mit KI: https://www.skool.com/boostyourbusiness/about
 
-⭐️ 1:1 Zoom - Call with Christian: https://calendly.com/christiangoetz/6... 
+⭐️ 1:1 Zoom - Call with Christian: https://calendly.com/christiangoetz/](https://calendly.com/christiangoetz/60min
 
 📲 Lipa LIFE Agentur Webseite: https://lipalife.de
 
-🎤 Mein erster Song auf Spotify: https://open.spotify.com/intl-de/arti...
+🎤 Mein erster Song auf Spotify: https://open.spotify.com/intl-de/artist/4rUKEiC2c4Cr7vVc8F7JbZ
 
 📸 Instagram:  Fotos von mir / christian_ _goetz
 
