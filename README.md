@@ -88,7 +88,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 🎤 My first Songs on Spotify: https://open.spotify.com/intl-de/artist/4rUKEiC2c4Cr7vVc8F7JbZ
 
-📸 Instagram: Some photos of me an my family/ christian_ _goetz
+📸 Instagram: Some photos of me and my family/ christian_ _goetz
 
 You are happy with this and it safe your time:
 Send me a coffee: https://www.paypal.com/donate?business=chris86tian@gmail.com&currency_code=EUR
