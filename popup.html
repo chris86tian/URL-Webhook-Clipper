@@ -156,6 +156,52 @@
     .delete-btn:hover {
       background-color: #dc2626;
     }
+    /* Drag & Drop Styles */
+    .dropzone {
+      border: 2px dashed #e5e7eb;
+      border-radius: 4px;
+      padding: 20px;
+      text-align: center;
+      background-color: #f9fafb;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .dropzone.dragover {
+      border-color: #2563eb;
+      background-color: #eff6ff;
+    }
+    .dropzone-text {
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .file-list {
+      margin-top: 8px;
+    }
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px;
+      background-color: #f3f4f6;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+    .file-name {
+      font-size: 12px;
+      color: #374151;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 200px;
+    }
+    .remove-file {
+      background: none;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      padding: 2px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
@@ -172,6 +218,15 @@
     <div>
       <label for="notes">Additional Notes:</label>
       <textarea id="notes" placeholder="Enter additional notes..."></textarea>
+    </div>
+    <div class="dropzone" id="dropzone">
+      <div class="dropzone-text">
+        Drag & drop files here or click to select
+        <div style="font-size: 12px; margin-top: 4px; color: #9ca3af;">
+          Maximum file size: 10MB
+        </div>
+      </div>
+      <div class="file-list" id="fileList"></div>
     </div>
     <button id="sendBtn">Send to Webhook</button>
     <button id="settingsBtn" class="settings-btn">⚙️ Configure Webhooks</button>

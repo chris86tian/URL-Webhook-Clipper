@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "URL Webhook Clipper",
-  "version": "1.0",
-  "description": "Send URLs and custom text via webhook",
+  "version": "1.1",
+  "description": "Send URLs, notes, and files via webhook",
   "permissions": ["activeTab", "storage"],
   "action": {
     "default_popup": "popup.html",

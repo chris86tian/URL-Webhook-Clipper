@@ -9,6 +9,118 @@ document.addEventListener('DOMContentLoaded', function() {
   const closeConfigBtn = document.getElementById('closeConfigBtn');
   const addWebhookBtn = document.getElementById('addWebhookBtn');
   const webhookList = document.getElementById('webhookList');
+  const dropzone = document.getElementById('dropzone');
+  const fileList = document.getElementById('fileList');
+
+  let attachments = [];
+
+  // Drag & Drop Event Listeners
+  dropzone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.classList.add('dragover');
+  });
+
+  dropzone.addEventListener('dragleave', () => {
+    dropzone.classList.remove('dragover');
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+  });
+
+  dropzone.addEventListener('click', () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.multiple = true;
+    input.accept = '.pdf,.doc,.docx,.xls,.xlsx,.txt,.jpg,.jpeg,.png';
+    input.onchange = (e) => handleFiles(e.target.files);
+    input.click();
+  });
+
+  function handleFiles(files) {
+    for (const file of files) {
+      if (file.size > 10 * 1024 * 1024) { // 10MB limit
+        showStatus(`File ${file.name} is too large. Maximum size is 10MB.`, 'error');
+        continue;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const attachment = {
+          name: file.name,
+          type: file.type,
+          data: e.target.result
+        };
+        attachments.push(attachment);
+        updateFileList();
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function updateFileList() {
+    fileList.innerHTML = attachments.map((file, index) => `
+      <div class="file-item">
+        <span class="file-name">${file.name}</span>
+        <button class="remove-file" data-index="${index}">×</button>
+      </div>
+    `).join('');
+
+    // Add click handlers for remove buttons
+    document.querySelectorAll('.remove-file').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const index = parseInt(e.target.dataset.index);
+        attachments.splice(index, 1);
+        updateFileList();
+      });
+    });
+  }
+
+  // Add version checking and data migration
+  function checkAndMigrateData() {
+    chrome.storage.sync.get(['webhookConfigs', 'dataVersion'], function(result) {
+      const currentVersion = '1.0'; // Update this when data structure changes
+      const storedVersion = result.dataVersion;
+      const configs = result.webhookConfigs || [];
+
+      if (!storedVersion) {
+        // First time setup or old version without versioning
+        chrome.storage.sync.set({ 
+          dataVersion: currentVersion,
+          webhookConfigs: configs 
+        });
+      } else if (storedVersion !== currentVersion) {
+        // Perform data migration based on version differences
+        let migratedConfigs = migrateData(configs, storedVersion, currentVersion);
+        chrome.storage.sync.set({ 
+          dataVersion: currentVersion,
+          webhookConfigs: migratedConfigs 
+        });
+      }
+    });
+  }
+
+  function migrateData(configs, fromVersion, toVersion) {
+    // Handle different version migrations
+    switch(fromVersion) {
+      case '0.9':
+        // Example migration from version 0.9 to 1.0
+        configs = configs.map(config => {
+          if (!config.templates) {
+            config.templates = [];
+          }
+          return config;
+        });
+        break;
+      // Add more cases for future versions
+    }
+    return configs;
+  }
+
+  // Call migration check on startup
+  checkAndMigrateData();
 
   // Load configurations and populate dropdowns
   loadConfigurations();
@@ -52,7 +164,8 @@ document.addEventListener('DOMContentLoaded', function() {
           title: currentTitle,
           notes: notes,
           template: selectedTemplate,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          attachments: attachments
         };
 
         fetch(selectedConfig.url, {
@@ -68,6 +181,8 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           showStatus('Successfully sent to webhook!', 'success');
           notesInput.value = '';
+          attachments = [];
+          updateFileList();
         })
         .catch(error => {
           showStatus('Error sending to webhook: ' + error.message, 'error');
