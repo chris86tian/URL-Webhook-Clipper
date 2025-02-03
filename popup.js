@@ -7,12 +7,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const templateSelect = document.getElementById('templateSelect');
   const configDialog = document.getElementById('configDialog');
   const closeConfigBtn = document.getElementById('closeConfigBtn');
+  const closePopupBtn = document.getElementById('closePopup');
   const addWebhookBtn = document.getElementById('addWebhookBtn');
   const webhookList = document.getElementById('webhookList');
   const dropzone = document.getElementById('dropzone');
   const fileList = document.getElementById('fileList');
 
   let attachments = [];
+
+  // Close popup button
+  closePopupBtn.addEventListener('click', function() {
+    window.close();
+  });
 
   // Drag & Drop Event Listeners
   dropzone.addEventListener('dragover', (e) => {
@@ -81,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Add version checking and data migration
   function checkAndMigrateData() {
     chrome.storage.sync.get(['webhookConfigs', 'dataVersion'], function(result) {
-      const currentVersion = '1.0'; // Update this when data structure changes
+      const currentVersion = '1.2'; // Updated version
       const storedVersion = result.dataVersion;
       const configs = result.webhookConfigs || [];
 
@@ -114,7 +120,10 @@ document.addEventListener('DOMContentLoaded', function() {
           return config;
         });
         break;
-      // Add more cases for future versions
+      case '1.0':
+      case '1.1':
+        // No changes needed for data structure in 1.2
+        break;
     }
     return configs;
   }
@@ -366,8 +375,5 @@ document.addEventListener('DOMContentLoaded', function() {
     statusDiv.textContent = message;
     statusDiv.className = type;
     statusDiv.style.display = 'block';
-    setTimeout(() => {
-      statusDiv.style.display = 'none';
-    }, 3000);
   }
 });
