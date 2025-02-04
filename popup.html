@@ -4,11 +4,77 @@
   <title>URL Webhook Clipper</title>
   <meta charset="UTF-8">
   <style>
+    /* Base styles remain unchanged */
     body {
       width: 320px;
       padding: 16px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
+
+    /* Dark mode styles */
+    body.dark-mode {
+      background-color: #1a1a1a;
+      color: #e5e5e5;
+    }
+
+    .dark-mode input, 
+    .dark-mode textarea, 
+    .dark-mode select {
+      background-color: #2d2d2d;
+      color: #e5e5e5;
+      border-color: #404040;
+    }
+
+    .dark-mode .webhook-item {
+      background-color: #2d2d2d;
+      border-color: #404040;
+    }
+
+    .dark-mode .dropzone {
+      background-color: #2d2d2d;
+      border-color: #404040;
+    }
+
+    .dark-mode .file-item {
+      background-color: #363636;
+    }
+
+    .dark-mode .settings-btn,
+    .dark-mode .github-btn {
+      color: #a3a3a3;
+    }
+
+    .dark-mode .settings-btn:hover,
+    .dark-mode .github-btn:hover {
+      color: #e5e5e5;
+    }
+
+    /* Theme toggle styles */
+    .theme-toggle {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-mode .theme-toggle:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
     .container {
       display: flex;
       flex-direction: column;
@@ -234,6 +300,9 @@
   </style>
 </head>
 <body>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
+    <!-- Icon will be inserted via JavaScript -->
+  </button>
   <button class="close-popup" id="closePopup">×</button>
   <div class="container">
     <h2>URL Webhook Clipper</h2>
