@@ -154,7 +154,26 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Author
 
-Christian Götz
+👋 **Christian Götz**  
+
+📢 **Boost Your Business Community** – The free German community for Business & AI:  
+➡️ [Join here](https://www.skool.com/boostyourbusiness/about)  
+
+🛠 **1:1 Zoom Call with Christian** – Need help with automations?  
+📅 [Book a session](https://calendly.com/christiangoetz/60min)  
+
+🚀 **My Agency Lipa LIFE** – Digital Marketing & Automation:  
+🌐 [Website](https://lipalife.de)  
+
+🎤 **My first German AI songs on Spotify** – Where AI meets music:  
+🎵 [Listen now](https://open.spotify.com/intl-de/artist/4rUKEiC2c4Cr7vVc8F7JbZ)  
+
+📸 **Instagram** – A glimpse into my life & family:  
+📷 [@christian_ _goetz](https://www.instagram.com/christian__goetz/)  
+
+☕ **Is this tool saving you time?**  
+Support me with a coffee:  
+💰 [Donate via PayPal](https://www.paypal.com/donate?business=chris86tian@gmail.com&currency_code=EUR)  
 
 ## Acknowledgments
 
