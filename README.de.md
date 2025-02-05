@@ -1,188 +1,160 @@
-# URL Webhook Clipper
+# 🚀 URL Webhook Clipper – Die beste Webhook Chrome-Erweiterung  
+## 🌟 Automatisiere deine Workflows mit Webhooks in nur einem Klick!  
 
-Eine Chrome-Erweiterung, mit der Sie ganz einfach URLs und benutzerdefinierte Notizen an mehrere Webhook-Endpunkte senden können. Perfekt zum Speichern von Links zu Ihren bevorzugten Diensten oder zum Erstellen von Aufgaben aus Webseiten.
+**URL Webhook Clipper** ist eine leistungsstarke **Webhook Chrome-Erweiterung**, mit der du **URLs, Notizen und Dateien direkt an mehrere Webhook-Endpunkte senden kannst**.  
+Perfekt für die Automatisierung von Workflows mit **Make.com, Zapier, N8N, Slack, ClickUp, Notion, Airtable, Google Sheets und CRM-Tools** wie **HubSpot, Pipedrive und Salesforce**. 
 
 [English Version (German Version)](README.md)
 
 ## Video Tutorial
 [![URL Webhook Clipper Tutorial](https://img.youtube.com/vi/Cwjrm6HHJ-s/0.jpg)](https://www.youtube.com/watch?v=Cwjrm6HHJ-s)
 
-## Funktionen
+🔹 **Leads erfassen, URLs speichern & Webhooks nahtlos automatisieren!**  
 
-🔗 Senden Sie die aktuelle Tab-URL an jeden konfigurierten Webhook
-📝 Fügen Sie Ihren Übermittlungen benutzerdefinierte Notizen hinzu
-⚡ Unterstützung für mehrere Webhook-Endpunkte
-🏷️ Anpassbare Templates für jeden Webhook
-📎 Drag & Drop von Dateien direkt aus dem Chrome-Download-Popup in die Erweiterung
-🌓 Dark Mode-Unterstützung mit Systemeinstellungserkennung
-🔄 Permanentes Popup-Fenster für besseren Workflow
-🔒 Sichere Speicherung der Webhook-Konfigurationen
-🎨 Übersichtliche und intuitive Benutzeroberfläche
-📥 Import- und Exportfunktion für Webhook-Einstellungen
+---
 
-## Installation
+## 🔥 Hauptfunktionen dieser Webhook Chrome-Erweiterung  
 
-### Aus dem Chrome Web Store
-https://chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac
+- ✔ **URLs sofort senden** – Teile die aktuelle Tab-URL mit jedem Webhook.  
+- ✔ **Unterstützung mehrerer Webhooks** – Sende Daten gleichzeitig an mehrere Endpunkte.  
+- ✔ **KI & No-Code-Automatisierung** – Verbindung mit **Make.com, N8N und Zapier**.  
+- ✔ **Lead-Erfassung in CRM** – Leads direkt in **HubSpot, Pipedrive oder Salesforce** speichern.  
+- ✔ **Aufgabenerstellung in ClickUp, Slack & Trello** – URLs in Aufgaben umwandeln.  
+- ✔ **Dateien per Drag & Drop anhängen** – Direkt aus dem Chrome-Download-Popup hochladen.  
+- ✔ **Persistentes Popup & Dark Mode** – Verbesserte Benutzererfahrung & Theme-Anpassung.  
+- ✔ **Sichere & DSGVO-konforme Speicherung** – Webhook-Konfigurationen werden lokal gespeichert.  
+- ✔ **Webhooks importieren & exportieren** – Einfache Übertragung der Einstellungen zwischen Geräten.  
+- ✔ **Rechnungsautomatisierung** – Rechnungen & Belege an **DATEV, QuickBooks oder Google Drive** senden.  
 
-### Manuelle Installation
-1. Laden Sie dieses Repository herunter oder klonen Sie es
-2. Öffnen Sie Chrome und navigieren Sie zu `chrome://extensions/`
-3. Aktivieren Sie den "Entwicklermodus" oben rechts
-4. Klicken Sie auf "Entpackte Erweiterung laden" und wählen Sie das Erweiterungsverzeichnis aus
+✅ **Spare Zeit, automatisiere wiederkehrende Aufgaben und optimiere deinen Workflow noch heute!**  
 
-## Verwendung
+---
 
-1. Klicken Sie auf das Erweiterungssymbol in Ihrer Chrome-Symbolleiste
-2. Wählen Sie das gewünschte Webhook-Ziel aus dem Dropdown-Menü
-3. Wählen Sie ein Template (falls konfiguriert)
-4. Fügen Sie zusätzliche Notizen hinzu
-5. Ziehen Sie Dateien direkt aus dem Chrome-Download-Popup oder von Ihrem Computer per Drag & Drop
-6. Klicken Sie auf "An Webhook senden"
-7. Verwenden Sie die Schaltflächen "Import" und "Export" im Konfigurationspanel, um Ihre Webhook-Konfigurationen zu verwalten.
+## 📥 Installation & Einrichtung  
 
-### Konfiguration
+### **Installation aus dem Chrome Web Store**  
+👉 [chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac](https://chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac)  
 
-1. Klicken Sie auf das ⚙️ Symbol, um das Konfigurationspanel zu öffnen
-2. Fügen Sie neue Webhooks mit der Schaltfläche "+ Neuen Webhook hinzufügen" hinzu
-3. Konfigurieren Sie für jeden Webhook:
-   - Label: Ein benutzerfreundlicher Name für den Webhook
-   - URL: Der Webhook-Endpunkt
-   - Templates: Vordefinierte Kategorien oder Typen für Ihre Übermittlungen
-4. Verwenden Sie die Schaltflächen "Import" und "Export", um Ihre Webhook-Konfigurationen zu verwalten.
+### **Manuelle Installation**  
+1. Lade dieses Repository herunter oder klone es.  
+2. Öffne `chrome://extensions/` in Chrome.  
+3. Aktiviere **Entwicklermodus** (oben rechts).  
+4. Klicke auf **Entpackt laden** und wähle den Erweiterungsordner aus.  
 
-## Webhook Payload Format
+---
 
-Die Erweiterung sendet Daten im folgenden JSON-Format:
+## 🎯 So funktioniert es – Webhooks in 3 Schritten automatisieren  
+
+1. **Klicke auf das Erweiterungssymbol** in deiner Chrome-Symbolleiste.  
+2. **Wähle dein Webhook-Ziel** (z. B. **Make.com, N8N, Slack, ClickUp**).  
+3. **Sende deine Daten** – URLs, Notizen, Dateien und mehr!  
+
+📌 **Perfekt für Lead-Erfassung, Aufgabenautomatisierung und KI-gestützte Workflows.**  
+
+---
+
+## 🔧 Webhook Payload & JSON-Format  
+
+Die Erweiterung sendet Daten im folgenden JSON-Format:  
 
 ```json
 {
   "url": "https://example.com",
-  "title": "Seitentitel",
-  "notes": "Benutzereingabe Notizen",
-  "template": "Ausgewähltes Template",
+  "title": "Beispiel-Seitentitel",
+  "notes": "Benutzer eingegebene Notizen",
+  "template": "Lead-Erfassung",
   "metaDescription": "Meta-Beschreibung der Seite",
   "timestamp": "2024-03-13T20:00:00.000Z",
   "attachments": [
     {
-      "name": "dateiname.pdf",
+      "name": "dokument.pdf",
       "type": "application/pdf",
-      "data": "base64-kodierter-inhalt"
+      "data": "base64-encoded-content"
     }
   ]
 }
+
 ```
 
-## Datenschutz (DSGVO)
+## 📌 Anwendungsfälle  
 
-Die URL Webhook Clipper Erweiterung wurde unter Berücksichtigung des Datenschutzes entwickelt und entspricht den DSGVO-Anforderungen:
+- 🔹 **Website-Leads erfassen** und an **HubSpot, Pipedrive oder Salesforce** senden.  
+- 🔹 **KI-gestützte Aufgabenautomatisierung** in **ClickUp, Slack oder Trello**.  
+- 🔹 **Rechnungen & Dokumente automatisch senden** an **DATEV, QuickBooks oder Google Drive**.  
+- 🔹 **Forschungslinks automatisch speichern** in **Notion, Airtable oder Google Sheets**.  
 
-### Datenerfassung und -nutzung
-- Die Erweiterung sammelt nur Daten, die Sie ausdrücklich bereitstellen:
-  - URLs und Titel von Webseiten, die Sie teilen möchten
-  - Notizen, die Sie manuell eingeben
-  - Dateien, die Sie anhängen möchten
-  - Webhook-Konfigurationen, die Sie einrichten
-- Alle Daten werden lokal in Ihrem Browser gespeichert
-- Daten werden nur an die von Ihnen konfigurierten Webhook-Endpunkte gesendet
-- Es werden keine Analysen oder Tracking durchgeführt
-- Keine Daten werden an Dritte weitergegeben
+---
 
-### Ihre Rechte nach DSGVO
-- Recht auf Auskunft: Alle Ihre Daten werden lokal in Ihrem Browser gespeichert
-- Recht auf Löschung: Sie können alle Daten entfernen durch:
-  - Löschen der Webhook-Konfigurationen
-  - Löschen des Browser-Speichers
-  - Deinstallation der Erweiterung
-- Recht auf Datenübertragbarkeit: Webhook-Konfigurationen können exportiert werden
-- Recht auf Information: Diese Dokumentation bietet volle Transparenz über die Datenverarbeitung
+## 🔒 Datenschutz & DSGVO-Konformität  
 
-## Entwicklung
+- ✅ **Keine Tracking-Tools, keine Analyse-Daten** – 100 % datenschutzfreundlich.  
+- ✅ **Alle Daten bleiben lokal gespeichert** – Webhook-Einstellungen verlassen niemals deinen Browser.  
+- ✅ **Nur Daten senden, die du explizit auswählst** – Volle Kontrolle über deine Daten.  
 
-### Voraussetzungen
-- Chrome Browser
-- Grundlegendes Verständnis von JavaScript und Chrome-Erweiterungsentwicklung
+### 📌 So löschst du gespeicherte Daten  
 
-### Projektstruktur
-```
-├── icons/
-│   ├── icon16.png
-│   ├── icon48.png
-│   └── icon128.png
-├── manifest.json
-├── popup.html
-├── popup.js
-└── README.md
-```
+1. **Webhook-Konfigurationen entfernen**  
+2. **Browser-Speicher löschen**  
+3. **Erweiterung deinstallieren**  
 
-### Build
-Kein Build-Schritt erforderlich. Die Erweiterung kann direkt im Entwicklermodus in Chrome geladen werden.
+---
 
-## Mitwirken
+## 🛠 Entwicklung & Beiträge  
 
-1. Forken Sie das Repository
-2. Erstellen Sie einen Feature-Branch (`git checkout -b feature/TollesFunktion`)
-3. Committen Sie Ihre Änderungen (`git commit -m 'Tolle Funktion hinzugefügt'`)
-4. Pushen Sie zum Branch (`git push origin feature/TollesFunktion`)
-5. Öffnen Sie einen Pull Request
+Möchtest du **URL Webhook Clipper** verbessern? Sei dabei!  
 
-## Support
+- 📩 **Fehlermeldungen & Funktionsvorschläge:** [github.com/your-repo/issues](https://github.com/your-repo/issues)  
+- 🤝 **Contribute & Pull Requests einreichen:** [github.com/your-repo](https://github.com/your-repo)  
 
-Brauchen Sie Hilfe? Haben Sie einen Fehler gefunden? Haben Sie einen Feature-Wunsch? Besuchen Sie unser [GitHub Repository](https://github.com/chris86tian/URL-Webhook-Clipper) um:
-- Probleme zu melden
-- Funktionen anzufordern
-- Am Projekt mitzuwirken
-- Die neuesten Updates zu erhalten
+---
 
-## Changelog
+## 📌 Changelog – Neueste KI-Verbesserungen  
 
-### Version 1.3
-- Verbesserte Lesbarkeit im Dark Mode in der Konfigurationsansicht
-- Verbesserte Sichtbarkeit der Template-Buttons im Dark Mode
-- Import- und Exportfunktion der Webhook-Einstellungen hinzugefügt
+### **v1.3**  
+🚀 **Neue KI- & Webhook-Automatisierungsfunktionen:**  
+- ✅ Verbesserte Lesbarkeit im Dark Mode  
+- ✅ Optimierte Sichtbarkeit von Vorlagen-Buttons  
+- ✅ **Webhook-Einstellungen importieren/exportieren**  
+- ✅ **Optimierte Lead-Erfassung & Rechnungsautomatisierung**  
 
-### Version 1.2
-- Permanentes Popup-Fenster hinzugefügt
-- Schließen-Button (X) in der oberen rechten Ecke hinzugefügt
-- Drag & Drop-Unterstützung für Dateien aus dem Chrome-Download-Popup hinzugefügt
-- GitHub Support-Link hinzugefügt
-- Verbesserte Sichtbarkeit von Statusmeldungen
-- Verbesserte visuelle Rückmeldung beim Drag & Drop
-- DSGVO-Dokumentation hinzugefügt
-- Deutsche Übersetzung hinzugefügt
+### **v1.2**  
+- ✅ Persistentes Popup-Fenster  
+- ✅ Unterstützung für Drag & Drop von Dateien  
+- ✅ DSGVO-Konformitätsdokumentation hinzugefügt  
+- ✅ Deutsche Übersetzung integriert  
 
-### Version 1.1
-- Erstveröffentlichung mit grundlegender Funktionalität
-- Unterstützung für mehrere Webhooks
-- Template-System
-- Dateianhang-Unterstützung
+---
 
-## Lizenz
+## 👤 Über den Entwickler – Christian Götz  
 
-Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe die [LICENSE](LICENSE) Datei für Details.
+👋 **Experte für KI & Workflow-Automatisierung**  
 
-## Autor
+### 📢 **Boost Your Business Community (Kostenlose AI & Automatisierungsgruppe)**  
+➡ [skool.com/boostyourbusiness/about](https://www.skool.com/boostyourbusiness/about)  
 
-📢 **Boost Your Business Community** – Die kostenlose deutsche Community für Business & AI:  
-➡️ [Hier beitreten](https://www.skool.com/boostyourbusiness/about)  
+### 🛠 **Benötigst du Hilfe bei AI-Automatisierungen?**  
+📅 **Buche ein 1:1-Gespräch:** [calendly.com/christiangoetz/60min](https://calendly.com/christiangoetz/60min)  
 
-🛠 **1:1 Zoom-Call mit Christian** – Brauchst du Hilfe mit Automatisierungen?  
-📅 [Termin buchen](https://calendly.com/christiangoetz/60min)  
+### 🚀 **Lipa LIFE – Agentur für digitale Marketing- & KI-Automatisierung**  
+🌐 **Mehr erfahren:** [lipalife.de](https://lipalife.de)  
 
-🚀 **Meine Agentur Lipa LIFE** – Digital Marketing & Automatisierung:  
-🌐 [Website](https://lipalife.de)  
+### 🎤 **KI-Musik – AI-generierte Tracks auf Spotify**  
+🎵 **Jetzt reinhören:** [open.spotify.com/intl-de/artist/4rUKEiC2c4Cr7vVc8F7JbZ](https://open.spotify.com/intl-de/artist/4rUKEiC2c4Cr7vVc8F7JbZ)  
 
-🎤 **Meine ersten deutschen AI-Songs auf Spotify** – KI trifft Musik:  
-🎵 [Anhören](https://open.spotify.com/intl-de/artist/4rUKEiC2c4Cr7vVc8F7JbZ)  
+### 📸 **Einblicke in KI & Automatisierung auf Instagram**  
+📷 [instagram.com/christian__goetz](https://www.instagram.com/christian__goetz/)  
 
-📸 **Instagram** – Einblicke in mein Leben & Familie:  
-📷 [@christian_ _goetz](https://www.instagram.com/christian__goetz/)  
+### ☕ **Dieses AI-Tool hilft dir? Unterstütze mich mit einem Kaffee!**  
+💰 [paypal.com/donate?business=chris86tian@gmail.com&currency_code=EUR](https://www.paypal.com/donate?business=chris86tian@gmail.com&currency_code=EUR)  
 
-☕ **Dieses Tool spart dir Zeit?**  
-Unterstütze mich mit einem Kaffee:  
-💰 [Spende via PayPal](https://www.paypal.com/donate?business=chris86tian@gmail.com&currency_code=EUR)  
+---
 
-## Danksagung
+## 💡 Warum URL Webhook Clipper für KI-Automatisierungen nutzen?  
 
-- Inspiriert vom Airtable Web Clipper
-- Entwickelt mit vanilla JavaScript und Chrome Extension APIs
+- 🚀 **Automatisiere alles** – Von Lead-Erfassung bis Rechnungsverarbeitung.  
+- 🔒 **Datenschutzfreundlich** – Keine Tracking-Tools, alle Daten bleiben im Browser.  
+- 📎 **Unterstützt KI & CRM-Tools** – Funktioniert mit **Make.com, N8N, Zapier, Slack, ClickUp & mehr**.  
+- 🔄 **No-Code & KI-gestützte Automatisierung** – Perfekt für **Notion, Trello, Google Sheets und Airtable**.  
+
+✅ **Jetzt ausprobieren & KI-Automatisierung auf das nächste Level bringen!**  
+👉 [chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac](https://chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac)  
