@@ -132,6 +132,10 @@ Brauchen Sie Hilfe? Haben Sie einen Fehler gefunden? Haben Sie einen Feature-Wun
 
 ## Changelog
 
+### Version 1.3
+- Verbesserte Lesbarkeit im Dark Mode in der Konfigurationsansicht
+- Verbesserte Sichtbarkeit der Template-Buttons im Dark Mode
+
 ### Version 1.2
 - Permanentes Popup-Fenster hinzugefügt
 - Schließen-Button (X) in der oberen rechten Ecke hinzugefügt

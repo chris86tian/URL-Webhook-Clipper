@@ -329,6 +329,12 @@
       justify-content: space-between;
       align-items: center;
     }
+    /* Import/Export button styles */
+    .import-export-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+    }
   </style>
 </head>
 <body>
@@ -382,6 +388,10 @@
       <!-- Webhook items will be inserted here -->
     </div>
     <button id="addWebhookBtn" class="add-webhook">+ Add New Webhook</button>
+    <div class="import-export-buttons">
+      <button id="importBtn" class="settings-btn">Import</button>
+      <button id="exportBtn" class="settings-btn">Export</button>
+    </div>
   </div>
 
   <script src="popup.js"></script>

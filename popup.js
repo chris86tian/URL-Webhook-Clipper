@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const dropzone = document.getElementById('dropzone');
   const fileList = document.getElementById('fileList');
   const themeToggle = document.getElementById('themeToggle');
+  const importBtn = document.getElementById('importBtn');
+  const exportBtn = document.getElementById('exportBtn');
 
   let attachments = [];
   
@@ -123,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Add version checking and data migration
   function checkAndMigrateData() {
     chrome.storage.sync.get(['webhookConfigs', 'dataVersion'], function(result) {
-      const currentVersion = '1.2'; // Updated version
+      const currentVersion = '1.3'; // Updated version
       const storedVersion = result.dataVersion;
       const configs = result.webhookConfigs || [];
 
@@ -158,7 +160,8 @@ document.addEventListener('DOMContentLoaded', function() {
         break;
       case '1.0':
       case '1.1':
-        // No changes needed for data structure in 1.2
+      case '1.2':
+        // No changes needed for data structure in 1.3
         break;
     }
     return configs;
@@ -412,4 +415,49 @@ document.addEventListener('DOMContentLoaded', function() {
     statusDiv.className = type;
     statusDiv.style.display = 'block';
   }
+
+  // Export webhooks to JSON
+  exportBtn.addEventListener('click', function() {
+    chrome.storage.sync.get(['webhookConfigs'], function(result) {
+      const configs = result.webhookConfigs || [];
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(configs));
+      const downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute("href", dataStr);
+      downloadAnchorNode.setAttribute("download", "webhook_configs.json");
+      document.body.appendChild(downloadAnchorNode);
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    });
+  });
+
+  // Import webhooks from JSON
+  importBtn.addEventListener('click', function() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          try {
+            const importedConfigs = JSON.parse(event.target.result);
+            if (Array.isArray(importedConfigs)) {
+              chrome.storage.sync.set({ webhookConfigs: importedConfigs }, function() {
+                showStatus('Webhooks imported successfully!', 'success');
+                renderWebhookList();
+                loadConfigurations();
+              });
+            } else {
+              throw new Error('Invalid data format');
+            }
+          } catch (error) {
+            showStatus('Invalid data: ' + error.message, 'error');
+          }
+        };
+        reader.readAsText(file);
+      }
+    };
+    input.click();
+  });
 });

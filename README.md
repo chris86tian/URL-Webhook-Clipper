@@ -132,6 +132,10 @@ Need help? Found a bug? Have a feature request? Please visit our [GitHub reposit
 
 ## Changelog
 
+### Version 1.3
+- Improved dark mode readability in the Configure view
+- Enhanced template button visibility in dark mode
+
 ### Version 1.2
 - Added persistent popup window
 - Added close button (X) in the top right corner
