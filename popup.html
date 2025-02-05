@@ -50,6 +50,32 @@
       color: #e5e5e5;
     }
 
+    /* Improved dark mode styles for Configure view */
+    .dark-mode .config-dialog {
+      background-color: #1a1a1a;
+      color: #e5e5e5;
+    }
+
+    .dark-mode .webhook-item {
+      background-color: #2d2d2d;
+      border-color: #404040;
+    }
+
+    .dark-mode .template-tag {
+      background-color: #3b3b3b;
+      color: #e5e5e5;
+    }
+
+    .dark-mode .template-tag button {
+      color: #e5e5e5;
+    }
+
+    .dark-mode .add-template {
+      background-color: #3b3b3b;
+      color: #e5e5e5;
+      border-color: #5a5a5a;
+    }
+
     /* Theme toggle styles */
     .theme-toggle {
       position: absolute;
@@ -297,6 +323,12 @@
       padding: 2px;
       font-size: 16px;
     }
+    /* New styles for button alignment */
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
@@ -328,13 +360,15 @@
       <div class="file-list" id="fileList"></div>
     </div>
     <button id="sendBtn">Send to Webhook</button>
-    <button id="settingsBtn" class="settings-btn">⚙️ Configure Webhooks</button>
-    <a href="https://github.com/chris86tian/URL-Webhook-Clipper" target="_blank" class="github-btn">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-      </svg>
-      Support on GitHub
-    </a>
+    <div class="button-row">
+      <button id="settingsBtn" class="settings-btn">⚙️ Configure</button>
+      <a href="https://github.com/chris86tian/URL-Webhook-Clipper" target="_blank" class="github-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+        </svg>
+        GitHub
+      </a>
+    </div>
     <div id="status"></div>
   </div>
 
