@@ -2,7 +2,7 @@
 
 Eine Chrome-Erweiterung, mit der Sie ganz einfach URLs und benutzerdefinierte Notizen an mehrere Webhook-Endpunkte senden können. Perfekt zum Speichern von Links zu Ihren bevorzugten Diensten oder zum Erstellen von Aufgaben aus Webseiten.
 
-[English Version (Englische Version)](README.md)
+[English Version (German Version)](README.md)
 
 ## Video Tutorial
 [![URL Webhook Clipper Tutorial](https://img.youtube.com/vi/Cwjrm6HHJ-s/0.jpg)](https://www.youtube.com/watch?v=Cwjrm6HHJ-s)
@@ -18,6 +18,7 @@ Eine Chrome-Erweiterung, mit der Sie ganz einfach URLs und benutzerdefinierte No
 🔄 Permanentes Popup-Fenster für besseren Workflow
 🔒 Sichere Speicherung der Webhook-Konfigurationen
 🎨 Übersichtliche und intuitive Benutzeroberfläche
+📥 Import- und Exportfunktion für Webhook-Einstellungen
 
 ## Installation
 
@@ -38,6 +39,7 @@ https://chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdm
 4. Fügen Sie zusätzliche Notizen hinzu
 5. Ziehen Sie Dateien direkt aus dem Chrome-Download-Popup oder von Ihrem Computer per Drag & Drop
 6. Klicken Sie auf "An Webhook senden"
+7. Verwenden Sie die Schaltflächen "Import" und "Export" im Konfigurationspanel, um Ihre Webhook-Konfigurationen zu verwalten.
 
 ### Konfiguration
 
@@ -47,6 +49,7 @@ https://chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdm
    - Label: Ein benutzerfreundlicher Name für den Webhook
    - URL: Der Webhook-Endpunkt
    - Templates: Vordefinierte Kategorien oder Typen für Ihre Übermittlungen
+4. Verwenden Sie die Schaltflächen "Import" und "Export", um Ihre Webhook-Konfigurationen zu verwalten.
 
 ## Webhook Payload Format
 
@@ -58,6 +61,7 @@ Die Erweiterung sendet Daten im folgenden JSON-Format:
   "title": "Seitentitel",
   "notes": "Benutzereingabe Notizen",
   "template": "Ausgewähltes Template",
+  "metaDescription": "Meta-Beschreibung der Seite",
   "timestamp": "2024-03-13T20:00:00.000Z",
   "attachments": [
     {
@@ -135,6 +139,7 @@ Brauchen Sie Hilfe? Haben Sie einen Fehler gefunden? Haben Sie einen Feature-Wun
 ### Version 1.3
 - Verbesserte Lesbarkeit im Dark Mode in der Konfigurationsansicht
 - Verbesserte Sichtbarkeit der Template-Buttons im Dark Mode
+- Import- und Exportfunktion der Webhook-Einstellungen hinzugefügt
 
 ### Version 1.2
 - Permanentes Popup-Fenster hinzugefügt

@@ -18,6 +18,7 @@ A Chrome extension that allows you to easily send URLs and custom notes to multi
 - 🌓 Dark mode support with system preference detection
 - 🔒 Secure storage of webhook configurations
 - 🎨 Clean and intuitive user interface
+- 📥 Import and export functionality for webhook settings
 
 ## Installation
 
@@ -38,6 +39,7 @@ https://chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdm
 4. Add any additional notes
 5. Drag & drop files directly from Chrome's download popup or your computer
 6. Click "Send to Webhook" to submit
+7. Use the "Import" and "Export" buttons in the configuration panel to manage your webhook settings.
 
 ### Configuration
 
@@ -47,6 +49,7 @@ https://chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdm
    - Label: A friendly name for the webhook
    - URL: The webhook endpoint
    - Templates: Predefined categories or types for your submissions
+4. Use the "Import" and "Export" buttons to manage your webhook configurations.
 
 ## Webhook Payload Format
 
@@ -58,6 +61,7 @@ The extension sends data in the following JSON format:
   "title": "Page Title",
   "notes": "User entered notes",
   "template": "Selected template",
+  "metaDescription": "Meta description of the page",
   "timestamp": "2024-03-13T20:00:00.000Z",
   "attachments": [
     {
@@ -135,6 +139,7 @@ Need help? Found a bug? Have a feature request? Please visit our [GitHub reposit
 ### Version 1.3
 - Improved dark mode readability in the Configure view
 - Enhanced template button visibility in dark mode
+- Added import and export functionality for webhook settings
 
 ### Version 1.2
 - Added persistent popup window

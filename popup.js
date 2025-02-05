@@ -198,6 +198,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const selectedWebhookId = webhookSelect.value;
       const selectedTemplate = templateSelect.value;
 
+      // Get the meta description
+      const metaDescription = document.querySelector('meta[name="description"]') 
+        ? document.querySelector('meta[name="description"]').content 
+        : '';
+
       chrome.storage.sync.get(['webhookConfigs'], function(result) {
         const configs = result.webhookConfigs || [];
         const selectedConfig = configs.find(c => c.id === selectedWebhookId);
@@ -212,6 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
           title: currentTitle,
           notes: notes,
           template: selectedTemplate,
+          metaDescription: metaDescription, // Add meta description to payload
           timestamp: new Date().toISOString(),
           attachments: attachments
         };
