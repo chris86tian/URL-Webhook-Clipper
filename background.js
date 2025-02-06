@@ -66,11 +66,13 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
       if (webhook) {
         const payload = {
-          text: selectedText,
-          template: template,
           url: tab.url,
           title: tab.title,
-          timestamp: new Date().toISOString()
+          notes: selectedText, // Set selected text as notes
+          template: template,
+          metaDescription: '', // You may want to fetch this if needed
+          timestamp: new Date().toISOString(),
+          attachments: [] // Set attachments if needed
         };
 
         fetch(webhook.url, {
@@ -85,21 +87,29 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             throw new Error('Network response was not ok');
           }
           // Show notification on success
-          chrome.notifications.create({
-            type: 'basic',
-            iconUrl: 'icons/icon48.png',
-            title: 'Success',
-            message: 'Text sent to webhook successfully!'
-          });
+          if (chrome.notifications) {
+            chrome.notifications.create({
+              type: 'basic',
+              iconUrl: 'icons/icon48.png',
+              title: 'Success',
+              message: 'Text sent to webhook successfully!'
+            });
+          } else {
+            console.error('Notifications API is not available.');
+          }
         })
         .catch(error => {
           // Show notification on error
-          chrome.notifications.create({
-            type: 'basic',
-            iconUrl: 'icons/icon48.png',
-            title: 'Error',
-            message: 'Failed to send text to webhook: ' + error.message
-          });
+          if (chrome.notifications) {
+            chrome.notifications.create({
+              type: 'basic',
+              iconUrl: 'icons/icon48.png',
+              title: 'Error',
+              message: 'Failed to send text to webhook: ' + error.message
+            });
+          } else {
+            console.error('Notifications API is not available.');
+          }
         });
       }
     });

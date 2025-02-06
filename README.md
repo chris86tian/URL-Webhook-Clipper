@@ -109,12 +109,15 @@ Want to improve **URL Webhook Clipper**? Get involved!
 
 ## 📌 Changelog – Latest AI Enhancements  
 
+### **v1.4**  
+- 🚀 **Payload Structure Adjustment**: The payload sent via the dropdown menu has been updated to include the fields `notes`, `metaDescription`, and `attachments`.  
+
 ### **v1.3**  
 🚀 **New AI & Webhook Automation Features:**  
 - ✅ Improved dark mode readability  
 - ✅ Enhanced template button visibility  
-- ✅ Import/export webhook settings  
-- ✅ Optimized lead capture & invoice automation  
+- ✅ **Import/Export webhook settings**  
+- ✅ **Optimized lead capture & invoice automation**  
 
 ### **v1.2**  
 - ✅ Persistent popup window  
@@ -156,4 +159,4 @@ Want to improve **URL Webhook Clipper**? Get involved!
 - 🔄 **No-Code & AI-driven task automation** – Connects seamlessly with **Notion, Trello, Google Sheets, and Airtable**.  
 
 ✅ **Try it now and take your AI automation to the next level!**  
-👉 [chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac](https://chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac)  
+👉 [chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac](https://chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac)

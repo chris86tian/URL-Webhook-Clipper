@@ -73,7 +73,6 @@ Die Erweiterung sendet Daten im folgenden JSON-Format:
     }
   ]
 }
-
 ```
 
 ## 📌 Anwendungsfälle  
@@ -109,6 +108,9 @@ Möchtest du **URL Webhook Clipper** verbessern? Sei dabei!
 ---
 
 ## 📌 Changelog – Neueste KI-Verbesserungen  
+
+### **v1.4**  
+- 🚀 **Anpassung der Payload-Struktur**: Die Payload, die über das Dropdown-Menü gesendet wird, wurde aktualisiert, um die Felder `notes`, `metaDescription` und `attachments` zu integrieren.  
 
 ### **v1.3**  
 🚀 **Neue KI- & Webhook-Automatisierungsfunktionen:**  
@@ -157,4 +159,4 @@ Möchtest du **URL Webhook Clipper** verbessern? Sei dabei!
 - 🔄 **No-Code & KI-gestützte Automatisierung** – Perfekt für **Notion, Trello, Google Sheets und Airtable**.  
 
 ✅ **Jetzt ausprobieren & KI-Automatisierung auf das nächste Level bringen!**  
-👉 [chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac](https://chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac)  
+👉 [chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac](https://chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac)
