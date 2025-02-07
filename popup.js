@@ -199,9 +199,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const selectedTemplate = templateSelect.value;
 
       // Get the meta description
-      const metaDescription = document.querySelector('meta[name="description"]') 
-        ? document.querySelector('meta[name="description"]').content 
-        : '';
+      const metaDescriptionElement = document.querySelector('meta[name="description"]');
+      const metaDescription = metaDescriptionElement ? metaDescriptionElement.content : ''; // Kein Fallback-Wert
+
+      console.log('Meta Description:', metaDescription); // Debugging
 
       chrome.storage.sync.get(['webhookConfigs'], function(result) {
         const configs = result.webhookConfigs || [];

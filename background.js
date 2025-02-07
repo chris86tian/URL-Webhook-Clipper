@@ -87,29 +87,21 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             throw new Error('Network response was not ok');
           }
           // Show notification on success
-          if (chrome.notifications) {
-            chrome.notifications.create({
-              type: 'basic',
-              iconUrl: 'icons/icon48.png',
-              title: 'Success',
-              message: 'Text sent to webhook successfully!'
-            });
-          } else {
-            console.error('Notifications API is not available.');
-          }
+          chrome.notifications.create({
+            type: 'basic',
+            iconUrl: 'icons/icon48.png',
+            title: 'Success',
+            message: 'Text sent to webhook successfully!'
+          });
         })
         .catch(error => {
           // Show notification on error
-          if (chrome.notifications) {
-            chrome.notifications.create({
-              type: 'basic',
-              iconUrl: 'icons/icon48.png',
-              title: 'Error',
-              message: 'Failed to send text to webhook: ' + error.message
-            });
-          } else {
-            console.error('Notifications API is not available.');
-          }
+          chrome.notifications.create({
+            type: 'basic',
+            iconUrl: 'icons/icon48.png',
+            title: 'Error',
+            message: 'Failed to send text to webhook: ' + error.message
+          });
         });
       }
     });

@@ -7,7 +7,8 @@
     "activeTab",
     "storage",
     "contextMenus",
-    "clipboardRead"
+    "clipboardRead",
+    "notifications"  // Hinzugefügte Berechtigung für Benachrichtigungen
   ],
   "background": {
     "service_worker": "background.js"
