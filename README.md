@@ -25,6 +25,7 @@
 ✔ **Secure & GDPR-Compliant** – Webhook settings are stored locally.  
 ✔ **Import & Export Webhooks** – Easily transfer configurations across devices.  
 ✔ **Invoice Automation** – Send invoices and receipts to **DATEV, QuickBooks, or Google Drive**.  
+✔ **Send Phone Number to Smartphone** – Select a phone number and send it to your smartphone.  
 
 ✅ **Save time, automate repetitive tasks, and streamline your workflow today!**  
 
@@ -81,6 +82,7 @@ The extension sends data in the following JSON format:
 - 🔹 **Automate AI task creation** in **ClickUp, Slack, or Trello**.  
 - 🔹 **Send invoices & documents** to **DATEV, QuickBooks, or Google Drive**.  
 - 🔹 **Auto-save research links** in **Notion, Airtable, or Google Sheets**.  
+- 🔹 **Send phone numbers directly to your smartphone** – Select a phone number and send it to your smartphone.  
 
 ---
 
@@ -110,7 +112,7 @@ Want to improve **URL Webhook Clipper**? Get involved!
 ## 📌 Changelog – Latest AI Enhancements  
 
 ### **v1.4**  
-- 🚀 **Payload Structure Adjustment**: The payload sent via the dropdown menu has been updated to include the fields `notes`, `metaDescription`, and `attachments`.  
+- 🚀 **Send Phone Number to Smartphone**: New feature added to send phone numbers from the webpage to your smartphone.  
 
 ### **v1.3**  
 🚀 **New AI & Webhook Automation Features:**  

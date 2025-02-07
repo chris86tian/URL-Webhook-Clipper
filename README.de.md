@@ -25,6 +25,7 @@ Perfekt für die Automatisierung von Workflows mit **Make.com, Zapier, N8N, Slac
 - ✔ **Sichere & DSGVO-konforme Speicherung** – Webhook-Konfigurationen werden lokal gespeichert.  
 - ✔ **Webhooks importieren & exportieren** – Einfache Übertragung der Einstellungen zwischen Geräten.  
 - ✔ **Rechnungsautomatisierung** – Rechnungen & Belege an **DATEV, QuickBooks oder Google Drive** senden.  
+- ✔ **Telefonnummer direkt an Smartphone senden** – Wähle eine Telefonnummer aus und sende sie an dein Smartphone.  
 
 ✅ **Spare Zeit, automatisiere wiederkehrende Aufgaben und optimiere deinen Workflow noch heute!**  
 
@@ -81,6 +82,7 @@ Die Erweiterung sendet Daten im folgenden JSON-Format:
 - 🔹 **KI-gestützte Aufgabenautomatisierung** in **ClickUp, Slack oder Trello**.  
 - 🔹 **Rechnungen & Dokumente automatisch senden** an **DATEV, QuickBooks oder Google Drive**.  
 - 🔹 **Forschungslinks automatisch speichern** in **Notion, Airtable oder Google Sheets**.  
+- 🔹 **Telefonnummern direkt an dein Smartphone senden** – Wähle eine Telefonnummer aus und sende sie an dein Smartphone.  
 
 ---
 
@@ -110,7 +112,7 @@ Möchtest du **URL Webhook Clipper** verbessern? Sei dabei!
 ## 📌 Changelog – Neueste KI-Verbesserungen  
 
 ### **v1.4**  
-- 🚀 **Anpassung der Payload-Struktur**: Die Payload, die über das Dropdown-Menü gesendet wird, wurde aktualisiert, um die Felder `notes`, `metaDescription` und `attachments` zu integrieren.  
+- 🚀 **Telefonnummer direkt an Smartphone senden**: Neue Funktion hinzugefügt, um Telefonnummern von der Webseite an das Smartphone zu senden.  
 
 ### **v1.3**  
 🚀 **Neue KI- & Webhook-Automatisierungsfunktionen:**  

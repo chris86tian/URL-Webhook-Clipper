@@ -8,7 +8,7 @@
     "storage",
     "contextMenus",
     "clipboardRead",
-    "notifications"  // Hinzugefügte Berechtigung für Benachrichtigungen
+    "notifications"
   ],
   "background": {
     "service_worker": "background.js"
