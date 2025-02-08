@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "URL Webhook Clipper",
-  "version": "1.4",
+  "version": "1.5",
   "description": "Send URLs, notes, and files via webhook",
   "permissions": [
     "activeTab",
