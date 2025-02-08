@@ -1,435 +1,446 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>URL Webhook Clipper</title>
-  <meta charset="UTF-8">
-  <style>
-    body {
-      width: 480px;
-      padding: 16px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
+    <html>
+    <head>
+      <title>URL Webhook Clipper</title>
+      <meta charset="UTF-8">
+      <style>
+        body {
+          width: 480px;
+          padding: 16px;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    body.dark-mode {
-      background-color: #1a1a1a;
-      color: #e5e5e5;
-    }
+        body.dark-mode {
+          background-color: #1a1a1a;
+          color: #e5e5e5;
+        }
 
-    .dark-mode input, 
-    .dark-mode textarea, 
-    .dark-mode select {
-      background-color: #2d2d2d;
-      color: #e5e5e5;
-      border-color: #404040;
-    }
+        .dark-mode input, 
+        .dark-mode textarea, 
+        .dark-mode select {
+          background-color: #2d2d2d;
+          color: #e5e5e5;
+          border-color: #404040;
+        }
 
-    .dark-mode .webhook-item {
-      background-color: #2d2d2d;
-      border-color: #404040;
-    }
+        .dark-mode .webhook-item {
+          background-color: #2d2d2d;
+          border-color: #404040;
+        }
 
-    .dark-mode .dropzone {
-      background-color: #2d2d2d;
-      border-color: #404040;
-    }
+        .dark-mode .dropzone {
+          background-color: #2d2d2d;
+          border-color: #404040;
+        }
 
-    .dark-mode .file-item {
-      background-color: #363636;
-    }
+        .dark-mode .file-item {
+          background-color: #363636;
+        }
 
-    .dark-mode .settings-btn,
-    .dark-mode .github-btn {
-      color: #a3a3a3;
-    }
+        .dark-mode .settings-btn,
+        .dark-mode .github-btn {
+          color: #a3a3a3;
+        }
 
-    .dark-mode .settings-btn:hover,
-    .dark-mode .github-btn:hover {
-      color: #e5e5e5;
-    }
+        .dark-mode .settings-btn:hover,
+        .dark-mode .github-btn:hover {
+          color: #e5e5e5;
+        }
 
-    .dark-mode .config-dialog {
-      background-color: #1a1a1a;
-      color: #e5e5e5;
-    }
+        .dark-mode .config-dialog {
+          background-color: #1a1a1a;
+          color: #e5e5e5;
+        }
 
-    .dark-mode .webhook-item {
-      background-color: #2d2d2d;
-      border-color: #404040;
-    }
+        .dark-mode .webhook-item {
+          background-color: #2d2d2d;
+          border-color: #404040;
+        }
 
-    .dark-mode .template-tag {
-      background-color: #3b3b3b;
-      color: #e5e5e5;
-    }
+        .dark-mode .template-tag {
+          background-color: #3b3b3b;
+          color: #e5e5e5;
+        }
 
-    .dark-mode .template-tag button {
-      color: #e5e5e5;
-    }
+        .dark-mode .template-tag button {
+          color: #e5e5e5;
+        }
 
-    .dark-mode .add-template {
-      background-color: #3b3b3b;
-      color: #e5e5e5;
-      border-color: #5a5a5a;
-    }
+        .dark-mode .add-template {
+          background-color: #3b3b3b;
+          color: #e5e5e5;
+          border-color: #5a5a5a;
+        }
 
-    .theme-toggle {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      background: none;
-      border: none;
-      color: inherit;
-      cursor: pointer;
-      padding: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      transition: background-color 0.3s ease;
-    }
+        .theme-toggle {
+          background: none;
+          border: none;
+          color: inherit;
+          cursor: pointer;
+          padding: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          transition: background-color 0.3s ease;
+        }
 
-    .theme-toggle:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
+        .theme-toggle:hover {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
 
-    .dark-mode .theme-toggle:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
+        .dark-mode .theme-toggle:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+        .container {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          max-height: 600px; /* Set maximum height */
+          overflow-y: auto; /* Enable scrolling */
+        }
 
-    .select-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
+        .header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 16px;
+        }
 
-    .select-group {
-      flex: 1;
-    }
+        h2 {
+          flex: 1;
+          text-align: center; /* Center the title */
+          margin: 0; /* Remove default margin */
+        }
 
-    input, textarea, select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
+        .select-row {
+          display: flex;
+          gap: 8px;
+          margin-bottom: 12px;
+        }
 
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
+        .select-group {
+          flex: 1;
+        }
 
-    button {
-      background-color: #2563eb;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: 500;
-    }
+        input, textarea, select {
+          width: 100%;
+          padding: 8px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          box-sizing: border-box;
+        }
 
-    button:hover {
-      background-color: #1d4ed8;
-    }
+        textarea {
+          min-height: 200px; /* Set height to show 10 lines */
+          resize: vertical;
+        }
 
-    .settings-btn {
-      background: none;
-      color: #4b5563;
-      text-align: left;
-      padding: 4px 0;
-      font-size: 14px;
-    }
+        button {
+          background-color: #2563eb;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-weight: 500;
+        }
 
-    .settings-btn:hover {
-      background: none;
-      color: #1f2937;
-    }
+        button:hover {
+          background-color: #1d4ed8;
+        }
 
-    .github-btn {
-      background: none;
-      color: #4b5563;
-      text-align: left;
-      padding: 4px 0;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-    }
+        .settings-btn {
+          background: none;
+          color: #4b5563;
+          text-align: left;
+          padding: 4px 0;
+          font-size: 14px;
+        }
 
-    .github-btn:hover {
-      background: none;
-      color: #1f2937;
-    }
+        .settings-btn:hover {
+          background: none;
+          color: #1f2937;
+        }
 
-    #status {
-      padding: 8px;
-      border-radius: 4px;
-      display: none;
-    }
+        .github-btn {
+          background: none;
+          color: #4b5563;
+          text-align: left;
+          padding: 4px 0;
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          text-decoration: none;
+        }
 
-    .success {
-      background-color: #dcfce7;
-      color: #166534;
-    }
+        .github-btn:hover {
+          background: none;
+          color: #1f2937;
+        }
 
-    .error {
-      background-color: #fee2e2;
-      color: #991b1b;
-    }
+        #status {
+          padding: 8px;
+          border-radius: 4px;
+          display: none;
+        }
 
-    label {
-      font-size: 14px;
-      color: #4b5563;
-    }
+        .success {
+          background-color: #dcfce7;
+          color: #166534;
+        }
 
-    .close-popup {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: none;
-      border: none;
-      font-size: 20px;
-      color: #4b5563;
-      cursor: pointer;
-      padding: 4px;
-    }
+        .error {
+          background-color: #fee2e2;
+          color: #991b1b;
+        }
 
-    .close-popup:hover {
-      color: #1f2937;
-    }
+        label {
+          font-size: 14px;
+          color: #4b5563;
+        }
 
-    .config-dialog {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: white;
-      z-index: 1000;
-      padding: 16px;
-      overflow-y: auto;
-    }
+        .close-popup {
+          background: none;
+          border: none;
+          font-size: 20px;
+          color: #4b5563;
+          cursor: pointer;
+          padding: 4px;
+        }
 
-    .config-dialog.active {
-      display: block;
-    }
+        .close-popup:hover {
+          color: #1f2937;
+        }
 
-    .dialog-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
+        .config-dialog {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: white;
+          z-index: 1000;
+          padding: 16px;
+          overflow-y: auto;
+        }
 
-    .close-btn {
-      background: none;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-      padding: 4px;
-      color: #4b5563;
-    }
+        .config-dialog.active {
+          display: block;
+        }
 
-    .webhook-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+        .dialog-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 16px;
+        }
 
-    .webhook-item {
-      border: 1px solid #e5e7eb;
-      padding: 12px;
-      border-radius: 6px;
-    }
+        .close-btn {
+          background: none;
+          border: none;
+          font-size: 20px;
+          cursor: pointer;
+          padding: 4px;
+          color: #4b5563;
+        }
 
-    .template-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
+        .webhook-list {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
 
-    .template-tag {
-      background: #e5e7eb;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+        .webhook-item {
+          border: 1px solid #e5e7eb;
+          padding: 12px;
+          border-radius: 6px;
+        }
 
-    .template-tag button {
-      background: none;
-      border: none;
-      color: #4b5563;
-      padding: 0;
-      font-size: 14px;
-      cursor: pointer;
-    }
+        .template-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-top: 8px;
+        }
 
-    .add-template {
-      background: none;
-      border: 1px dashed #d1d5db;
-      padding: 4px 8px;
-      border-radius: 4px;
-      color: #6b7280;
-      cursor: pointer;
-      font-size: 12px;
-    }
+        .template-tag {
+          background: #e5e7eb;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
 
-    .add-webhook {
-      margin-top: 16px;
-    }
+        .template-tag button {
+          background: none;
+          border: none;
+          color: #4b5563;
+          padding: 0;
+          font-size: 14px;
+          cursor: pointer;
+        }
 
-    .action-buttons {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-    }
+        .add-template {
+          background: none;
+          border: 1px dashed #d1d5db;
+          padding: 4px 8px;
+          border-radius: 4px;
+          color: #6b7280;
+          cursor: pointer;
+          font-size: 12px;
+        }
 
-    .delete-btn {
-      background-color: #ef4444;
-    }
+        .add-webhook {
+          margin-top: 16px;
+        }
 
-    .delete-btn:hover {
-      background-color: #dc2626;
-    }
+        .action-buttons {
+          display: flex;
+          gap: 8px;
+          margin-top: 8px;
+        }
 
-    .dropzone {
-      border: 2px dashed #e5e7eb;
-      border-radius: 4px;
-      padding: 20px;
-      text-align: center;
-      background-color: #f9fafb;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+        .delete-btn {
+          background-color: #ef4444;
+        }
 
-    .dropzone.dragover {
-      border-color: #2563eb;
-      background-color: #eff6ff;
-    }
+        .delete-btn:hover {
+          background-color: #dc2626;
+        }
 
-    .dropzone-text {
-      color: #6b7280;
-      font-size: 14px;
-    }
+        .dropzone {
+          border: 2px dashed #e5e7eb;
+          border-radius: 4px;
+          padding: 20px;
+          text-align: center;
+          background-color: #f9fafb;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
 
-    .file-list {
-      margin-top: 8px;
-    }
+        .dropzone.dragover {
+          border-color: #2563eb;
+          background-color: #eff6ff;
+        }
 
-    .file-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px;
-      background-color: #f3f4f6;
-      border-radius: 4px;
-      margin-bottom: 4px;
-    }
+        .dropzone-text {
+          color: #6b7280;
+          font-size: 14px;
+        }
 
-    .file-name {
-      font-size: 12px;
-      color: #374151;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 200px;
-    }
+        .file-list {
+          margin-top: 8px;
+        }
 
-    .remove-file {
-      background: none;
-      border: none;
-      color: #ef4444;
-      cursor: pointer;
-      padding: 2px;
-      font-size: 16px;
-    }
+        .file-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px;
+          background-color: #f3f4f6;
+          border-radius: 4px;
+          margin-bottom: 4px;
+        }
 
-    .button-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        .file-name {
+          font-size: 12px;
+          color: #374151;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 200px;
+        }
 
-    .import-export-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 16px;
-    }
-  </style>
-</head>
-<body>
-  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
-    <!-- Icon will be inserted via JavaScript -->
-  </button>
-  <button class="close-popup" id="closePopup">×</button>
-  <div class="container">
-    <h2>URL Webhook Clipper</h2>
-    <div class="select-row">
-      <div class="select-group">
-        <label for="webhookSelect">Destination:</label>
-        <select id="webhookSelect"></select>
+        .remove-file {
+          background: none;
+          border: none;
+          color: #ef4444;
+          cursor: pointer;
+          padding: 2px;
+          font-size: 16px;
+        }
+
+        .button-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .import-export-buttons {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 16px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
+          <!-- Icon will be inserted via JavaScript -->
+        </button>
+        <h2>URL Webhook Clipper</h2>
+        <button class="close-popup" id="closePopup">×</button>
       </div>
-      <div class="select-group">
-        <label for="templateSelect">Template:</label>
-        <select id="templateSelect"></select>
+      <div class="container">
+        <div class="select-row">
+          <div class="select-group">
+            <label for="webhookSelect">Destination:</label>
+            <select id="webhookSelect"></select>
+          </div>
+          <div class="select-group">
+            <label for="templateSelect">Template:</label>
+            <select id="templateSelect"></select>
+          </div>
+        </div>
+        <div>
+          <label for="notes">Notes and Responses:</label>
+          <textarea id="notes" placeholder="Enter additional notes..." rows="10"></textarea>
+        </div>
+        <div class="dropzone" id="dropzone">
+          <div class="dropzone-text">
+            Drag & drop files here or click to select
+            <div style="font-size: 12px; margin-top: 4px; color: #9ca3af;">
+              Maximum file size: 10MB
+            </div>
+          </div>
+          <div class="file-list" id="fileList"></div>
+        </div>
+        <button id="sendBtn">Send to Webhook</button>
+        <div class="button-row">
+          <button id="settingsBtn" class="settings-btn">⚙️ Configure</button>
+          <a href="https://github.com/chris86tian/URL-Webhook-Clipper" target="_blank" class="github-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
+            GitHub
+          </a>
+        </div>
+        <div id="status"></div>
       </div>
-    </div>
-    <div>
-      <label for="notes">Additional Notes:</label>
-      <textarea id="notes" placeholder="Enter additional notes..."></textarea>
-    </div>
-    <div class="dropzone" id="dropzone">
-      <div class="dropzone-text">
-        Drag & drop files here or click to select
-        <div style="font-size: 12px; margin-top: 4px; color: #9ca3af;">
-          Maximum file size: 10MB
+
+      <!-- Configuration Dialog -->
+      <div id="configDialog" class="config-dialog">
+        <div class="dialog-header">
+          <h2>Configure Webhooks</h2>
+          <button class="close-btn" id="closeConfigBtn">×</button>
+        </div>
+        <div id="webhookList" class="webhook-list">
+          <!-- Webhook items will be inserted here -->
+        </div>
+        <button id="addWebhookBtn" class="add-webhook">+ Add New Webhook</button>
+        <div class="import-export-buttons">
+          <button id="importBtn" class="settings-btn">Import</button>
+          <button id="exportBtn" class="settings-btn">Export</button>
         </div>
       </div>
-      <div class="file-list" id="fileList"></div>
-    </div>
-    <button id="sendBtn">Send to Webhook</button>
-    <div class="button-row">
-      <button id="settingsBtn" class="settings-btn">⚙️ Configure</button>
-      <a href="https://github.com/chris86tian/URL-Webhook-Clipper" target="_blank" class="github-btn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-        </svg>
-        GitHub
-      </a>
-    </div>
-    <div id="status"></div>
-  </div>
 
-  <!-- Configuration Dialog -->
-  <div id="configDialog" class="config-dialog">
-    <div class="dialog-header">
-      <h2>Configure Webhooks</h2>
-      <button class="close-btn" id="closeConfigBtn">×</button>
-    </div>
-    <div id="webhookList" class="webhook-list">
-      <!-- Webhook items will be inserted here -->
-    </div>
-    <button id="addWebhookBtn" class="add-webhook">+ Add New Webhook</button>
-    <div class="import-export-buttons">
-      <button id="importBtn" class="settings-btn">Import</button>
-      <button id="exportBtn" class="settings-btn">Export</button>
-    </div>
-  </div>
-
-  <script src="popup.js"></script>
-</body>
-</html>
+      <script src="popup.js"></script>
+    </body>
+    </html>

@@ -1,10 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
       const notesInput = document.getElementById('notes');
       const sendBtn = document.getElementById('sendBtn');
-      const resetBtn = document.createElement('button');
-      resetBtn.textContent = 'Reset';
-      resetBtn.style.marginTop = '10px';
-      document.querySelector('.container').appendChild(resetBtn);
       const statusDiv = document.getElementById('status');
       const webhookSelect = document.getElementById('webhookSelect');
       const templateSelect = document.getElementById('templateSelect');
@@ -20,7 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const exportBtn = document.getElementById('exportBtn');
 
       let attachments = [];
-      
+      const templateDescriptionDisplay = document.createElement('div'); // Create a div for template description
+      templateDescriptionDisplay.id = 'templateDescription';
+      templateDescriptionDisplay.style.marginBottom = '12px'; // Add some margin
+      document.querySelector('.container').insertBefore(templateDescriptionDisplay, notesInput.parentNode); // Insert before notes input
+
       // Theme management
       function updateThemeIcon(isDark) {
         themeToggle.innerHTML = isDark 
@@ -41,9 +41,19 @@ document.addEventListener('DOMContentLoaded', function() {
         setTheme(isDark);
       });
 
-      // Close popup button
-      closePopupBtn.addEventListener('click', function() {
-        window.close();
+      // Theme toggle click handler
+      themeToggle.addEventListener('click', function() {
+        const isDark = !document.body.classList.contains('dark-mode');
+        setTheme(isDark);
+      });
+
+      // System theme change handler
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        chrome.storage.sync.get(['darkMode'], function(result) {
+          if (result.darkMode === undefined) {
+            setTheme(e.matches);
+          }
+        });
       });
 
       // Drag & Drop Event Listeners
@@ -128,6 +138,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
       webhookSelect.addEventListener('change', function() {
         updateTemplateOptions();
+        updateTemplateDescription(); // Update the description when the webhook changes
+      });
+
+      templateSelect.addEventListener('change', function() {
+        updateTemplateDescription(); // Update the description when the template changes
       });
 
       sendBtn.addEventListener('click', function() {
@@ -192,9 +207,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
 
-      resetBtn.addEventListener('click', function() {
-        notesInput.value = ''; // Clear the notes input
-      });
+      function updateTemplateDescription() {
+        const selectedTemplateName = templateSelect.value;
+        const selectedWebhookId = webhookSelect.value;
+
+        chrome.storage.sync.get(['webhookConfigs'], function(result) {
+          const configs = result.webhookConfigs || [];
+          const selectedConfig = configs.find(c => c.id === selectedWebhookId);
+
+          if (selectedConfig && selectedConfig.templates) {
+            const selectedTemplate = selectedConfig.templates.find(t => t.name === selectedTemplateName);
+            if (selectedTemplate) {
+              templateDescriptionDisplay.textContent = selectedTemplate.description; // Display the description
+            } else {
+              templateDescriptionDisplay.textContent = ''; // Clear if no template is selected
+            }
+          }
+        });
+      }
 
       function loadConfigurations() {
         chrome.storage.sync.get(['webhookConfigs'], function(result) {
@@ -229,8 +259,8 @@ document.addEventListener('DOMContentLoaded', function() {
           if (selectedConfig && selectedConfig.templates) {
             selectedConfig.templates.forEach(template => {
               const option = document.createElement('option');
-              option.value = template;
-              option.textContent = template;
+              option.value = template.name; // Use template name
+              option.textContent = template.name; // Show only the template name
               templateSelect.appendChild(option);
             });
           } else {
@@ -260,10 +290,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label>Templates:</label>
                 <div class="template-list">
                   ${config.templates.map(template => `
-                    <span class="template-tag">
-                      ${template}
-                      <button class="remove-template" data-template="${template}">×</button>
-                    </span>
+                    <div>
+                      <span class="template-tag">${template.name}</span>
+                      <input type="text" class="template-description" value="${template.description}" placeholder="Enter description">
+                      <button class="remove-template" data-template="${template.name}">×</button>
+                    </div>
                   `).join('')}
                   <button class="add-template">+ Add Template</button>
                 </div>
@@ -320,6 +351,12 @@ document.addEventListener('DOMContentLoaded', function() {
           configs[index].label = webhookItem.querySelector('.webhook-label').value;
           configs[index].url = webhookItem.querySelector('.webhook-url').value;
 
+          // Save template descriptions
+          const templateDescriptions = webhookItem.querySelectorAll('.template-description');
+          configs[index].templates.forEach((template, i) => {
+            template.description = templateDescriptions[i].value; // Update description
+          });
+
           chrome.storage.sync.set({ webhookConfigs: configs }, function() {
             showStatus('Webhook saved!', 'success');
             loadConfigurations();
@@ -340,26 +377,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
-      function addTemplate(index) {
-        const template = prompt('Enter template name:');
-        if (template) {
-          chrome.storage.sync.get(['webhookConfigs'], function(result) {
-            const configs = result.webhookConfigs || [];
-            if (!configs[index].templates.includes(template)) {
-              configs[index].templates.push(template);
-              chrome.storage.sync.set({ webhookConfigs: configs }, function() {
-                renderWebhookList();
-                updateTemplateOptions();
-              });
-            }
-          });
-        }
-      }
-
-      function removeTemplate(index, template) {
+      function removeTemplate(index, templateName) {
         chrome.storage.sync.get(['webhookConfigs'], function(result) {
           const configs = result.webhookConfigs || [];
-          configs[index].templates = configs[index].templates.filter(t => t !== template);
+          configs[index].templates = configs[index].templates.filter(t => t.name !== templateName);
           chrome.storage.sync.set({ webhookConfigs: configs }, function() {
             renderWebhookList();
             updateTemplateOptions();
