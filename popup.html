@@ -4,15 +4,13 @@
   <title>URL Webhook Clipper</title>
   <meta charset="UTF-8">
   <style>
-    /* Base styles remain unchanged */
     body {
-      width: 320px;
+      width: 480px;
       padding: 16px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* Dark mode styles */
     body.dark-mode {
       background-color: #1a1a1a;
       color: #e5e5e5;
@@ -50,7 +48,6 @@
       color: #e5e5e5;
     }
 
-    /* Improved dark mode styles for Configure view */
     .dark-mode .config-dialog {
       background-color: #1a1a1a;
       color: #e5e5e5;
@@ -76,7 +73,6 @@
       border-color: #5a5a5a;
     }
 
-    /* Theme toggle styles */
     .theme-toggle {
       position: absolute;
       top: 16px;
@@ -106,6 +102,17 @@
       flex-direction: column;
       gap: 12px;
     }
+
+    .select-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .select-group {
+      flex: 1;
+    }
+
     input, textarea, select {
       width: 100%;
       padding: 8px;
@@ -113,10 +120,12 @@
       border-radius: 4px;
       box-sizing: border-box;
     }
+
     textarea {
       min-height: 100px;
       resize: vertical;
     }
+
     button {
       background-color: #2563eb;
       color: white;
@@ -126,9 +135,11 @@
       cursor: pointer;
       font-weight: 500;
     }
+
     button:hover {
       background-color: #1d4ed8;
     }
+
     .settings-btn {
       background: none;
       color: #4b5563;
@@ -136,10 +147,12 @@
       padding: 4px 0;
       font-size: 14px;
     }
+
     .settings-btn:hover {
       background: none;
       color: #1f2937;
     }
+
     .github-btn {
       background: none;
       color: #4b5563;
@@ -151,32 +164,33 @@
       gap: 8px;
       text-decoration: none;
     }
+
     .github-btn:hover {
       background: none;
       color: #1f2937;
     }
+
     #status {
       padding: 8px;
       border-radius: 4px;
       display: none;
     }
+
     .success {
       background-color: #dcfce7;
       color: #166534;
     }
+
     .error {
       background-color: #fee2e2;
       color: #991b1b;
     }
-    .select-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+
     label {
       font-size: 14px;
       color: #4b5563;
     }
+
     .close-popup {
       position: absolute;
       top: 8px;
@@ -188,10 +202,11 @@
       cursor: pointer;
       padding: 4px;
     }
+
     .close-popup:hover {
       color: #1f2937;
     }
-    /* Config Dialog Styles */
+
     .config-dialog {
       display: none;
       position: fixed;
@@ -204,15 +219,18 @@
       padding: 16px;
       overflow-y: auto;
     }
+
     .config-dialog.active {
       display: block;
     }
+
     .dialog-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 16px;
     }
+
     .close-btn {
       background: none;
       border: none;
@@ -221,22 +239,26 @@
       padding: 4px;
       color: #4b5563;
     }
+
     .webhook-list {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
+
     .webhook-item {
       border: 1px solid #e5e7eb;
       padding: 12px;
       border-radius: 6px;
     }
+
     .template-list {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin-top: 8px;
     }
+
     .template-tag {
       background: #e5e7eb;
       padding: 4px 8px;
@@ -246,6 +268,7 @@
       align-items: center;
       gap: 4px;
     }
+
     .template-tag button {
       background: none;
       border: none;
@@ -254,6 +277,7 @@
       font-size: 14px;
       cursor: pointer;
     }
+
     .add-template {
       background: none;
       border: 1px dashed #d1d5db;
@@ -263,21 +287,25 @@
       cursor: pointer;
       font-size: 12px;
     }
+
     .add-webhook {
       margin-top: 16px;
     }
+
     .action-buttons {
       display: flex;
       gap: 8px;
       margin-top: 8px;
     }
+
     .delete-btn {
       background-color: #ef4444;
     }
+
     .delete-btn:hover {
       background-color: #dc2626;
     }
-    /* Drag & Drop Styles */
+
     .dropzone {
       border: 2px dashed #e5e7eb;
       border-radius: 4px;
@@ -287,17 +315,21 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
+
     .dropzone.dragover {
       border-color: #2563eb;
       background-color: #eff6ff;
     }
+
     .dropzone-text {
       color: #6b7280;
       font-size: 14px;
     }
+
     .file-list {
       margin-top: 8px;
     }
+
     .file-item {
       display: flex;
       align-items: center;
@@ -307,6 +339,7 @@
       border-radius: 4px;
       margin-bottom: 4px;
     }
+
     .file-name {
       font-size: 12px;
       color: #374151;
@@ -315,6 +348,7 @@
       white-space: nowrap;
       max-width: 200px;
     }
+
     .remove-file {
       background: none;
       border: none;
@@ -323,13 +357,13 @@
       padding: 2px;
       font-size: 16px;
     }
-    /* New styles for button alignment */
+
     .button-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    /* Import/Export button styles */
+
     .import-export-buttons {
       display: flex;
       justify-content: space-between;
@@ -344,13 +378,15 @@
   <button class="close-popup" id="closePopup">×</button>
   <div class="container">
     <h2>URL Webhook Clipper</h2>
-    <div class="select-group">
-      <label for="webhookSelect">Select Destination:</label>
-      <select id="webhookSelect"></select>
-    </div>
-    <div class="select-group">
-      <label for="templateSelect">Template:</label>
-      <select id="templateSelect"></select>
+    <div class="select-row">
+      <div class="select-group">
+        <label for="webhookSelect">Destination:</label>
+        <select id="webhookSelect"></select>
+      </div>
+      <div class="select-group">
+        <label for="templateSelect">Template:</label>
+        <select id="templateSelect"></select>
+      </div>
     </div>
     <div>
       <label for="notes">Additional Notes:</label>
