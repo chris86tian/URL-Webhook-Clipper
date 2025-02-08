@@ -136,6 +136,14 @@ document.addEventListener('DOMContentLoaded', function() {
         addNewWebhook();
       });
 
+      // Add event listener for adding templates
+      document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('add-template')) {
+          const index = Array.from(webhookList.children).indexOf(event.target.closest('.webhook-item'));
+          addTemplate(index);
+        }
+      });
+
       webhookSelect.addEventListener('change', function() {
         updateTemplateOptions();
         updateTemplateDescription(); // Update the description when the webhook changes
@@ -324,6 +332,25 @@ document.addEventListener('DOMContentLoaded', function() {
             webhookList.appendChild(webhookItem);
           });
         });
+      }
+
+      function addTemplate(index) {
+        const templateName = prompt("Enter template name:");
+        const templateDescription = prompt("Enter template description:"); // Prompt for description
+        if (templateName) {
+          chrome.storage.sync.get(['webhookConfigs'], function(result) {
+            const configs = result.webhookConfigs || [];
+            const newTemplate = {
+              name: templateName,
+              description: templateDescription || '' // Use provided description or empty string
+            };
+            configs[index].templates.push(newTemplate);
+            chrome.storage.sync.set({ webhookConfigs: configs }, function() {
+              renderWebhookList();
+              updateTemplateOptions();
+            });
+          });
+        }
       }
 
       function addNewWebhook() {
