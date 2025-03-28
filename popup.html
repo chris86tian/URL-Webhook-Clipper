@@ -16,8 +16,8 @@
           color: #e5e5e5;
         }
 
-        .dark-mode input, 
-        .dark-mode textarea, 
+        .dark-mode input,
+        .dark-mode textarea,
         .dark-mode select {
           background-color: #2d2d2d;
           color: #e5e5e5;
@@ -39,12 +39,14 @@
         }
 
         .dark-mode .settings-btn,
-        .dark-mode .github-btn {
+        .dark-mode .github-btn,
+        .dark-mode .lipa-link { /* Added dark mode style for lipa-link */
           color: #a3a3a3;
         }
 
         .dark-mode .settings-btn:hover,
-        .dark-mode .github-btn:hover {
+        .dark-mode .github-btn:hover,
+        .dark-mode .lipa-link:hover { /* Added dark mode hover style */
           color: #e5e5e5;
         }
 
@@ -158,6 +160,8 @@
           text-align: left;
           padding: 4px 0;
           font-size: 14px;
+          border: none; /* Ensure button looks like a link */
+          cursor: pointer; /* Add cursor pointer */
         }
 
         .settings-btn:hover {
@@ -165,7 +169,8 @@
           color: #1f2937;
         }
 
-        .github-btn {
+        .github-btn,
+        .lipa-link { /* Grouped common styles */
           background: none;
           color: #4b5563;
           text-align: left;
@@ -175,9 +180,12 @@
           align-items: center;
           gap: 8px;
           text-decoration: none;
+          border: none; /* Ensure looks like a link */
+          cursor: pointer; /* Add cursor pointer */
         }
 
-        .github-btn:hover {
+        .github-btn:hover,
+        .lipa-link:hover { /* Grouped common hover styles */
           background: none;
           color: #1f2937;
         }
@@ -371,6 +379,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          margin-top: 8px; /* Added margin for spacing */
         }
 
         .import-export-buttons {
@@ -415,6 +424,10 @@
         <button id="sendBtn">Send to Webhook</button>
         <div class="button-row">
           <button id="settingsBtn" class="settings-btn">⚙️ Configure</button>
+          <!-- Added Lipa LIFE link here -->
+          <a href="https://www.lipalife.de" target="_blank" rel="noopener noreferrer" class="lipa-link">
+            Design by Lipa LIFE
+          </a>
           <a href="https://github.com/chris86tian/URL-Webhook-Clipper" target="_blank" class="github-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>

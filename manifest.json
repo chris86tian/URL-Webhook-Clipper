@@ -1,13 +1,14 @@
 {
   "manifest_version": 3,
   "name": "URL Webhook Clipper",
-  "version": "1.5",
+  "version": "1.6",
   "description": "Send URLs, notes, and files via webhook",
   "permissions": [
     "activeTab",
     "storage",
     "contextMenus",
-    "notifications"
+    "notifications",
+    "scripting" 
   ],
   "background": {
     "service_worker": "background.js"
