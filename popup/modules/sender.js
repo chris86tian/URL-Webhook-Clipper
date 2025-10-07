@@ -45,10 +45,12 @@ export const sender = {
 
       // Check if URL is restricted
       const isRestrictedUrl = currentUrl.startsWith('chrome://') ||
-                              currentUrl.startsWith('https://chrome.google.com/webstore');
+                              currentUrl.startsWith('https://chrome.google.com/webstore') ||
+                              currentUrl.startsWith('edge://') ||
+                              currentUrl.startsWith('about:');
 
       if (isRestrictedUrl) {
-        console.warn("Skipping meta description fetch for restricted URL:", currentUrl);
+        // Restricted URLs cannot be accessed by extensions - skip meta description
         await this.sendToWebhook(selectedWebhookId, basePayload);
       } else {
         // Try to get meta description
@@ -118,7 +120,7 @@ export const sender = {
 
       if (isSuccess) {
         this.showStatus('Successfully sent to webhook!', 'success');
-        // ✅ Removed automatic clearFormData() - form only clears manually via Clear button
+        // ✅ Form only clears manually via Clear button
       } else {
         throw new Error(`${status} ${statusText}. Check notes for details.`);
       }
@@ -126,7 +128,6 @@ export const sender = {
       console.error('Fetch Error:', error);
       this.showStatus('Network Error: ' + error.message, 'error');
       notesInput.value = `Fetch Error: ${error.message}\n\nPlease check the webhook URL and your network connection.`;
-      // ✅ Removed automatic clearFormData() on error
       throw error;
     } finally {
       sendBtn.disabled = false;
