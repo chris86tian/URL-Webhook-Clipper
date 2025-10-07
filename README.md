@@ -1,175 +1,209 @@
-# 🚀 URL Webhook Clipper – The Best Webhook Chrome Extension
-## 🌟 **Automate Your Workflow with Webhooks in One Click!**
+# URL Webhook Clipper
 
-**URL Webhook Clipper** is a powerful **Webhook Chrome Extension** that allows you to **send URLs, notes, and files directly to multiple webhook endpoints**. Perfect for automating workflows with **Make.com, Zapier, N8N, Slack, ClickUp, Notion, Airtable, Google Sheets, and CRM tools** like **HubSpot, Pipedrive, and Salesforce**.
+A Chrome extension for clipping URLs, notes, and files to webhooks with session-based persistence.
 
-## New in Version 1.6
-- **CORS Fix**: Resolved Cross-Origin Resource Sharing (CORS) errors for smoother webhook requests.
-- **Webhook Response Handling**: The response from Make.com is now displayed in the notes field, enabling the integration of AI Agents.
-- **Template Description**: You can now add a description for each template to better understand its functionality.
-- **Layout Changes**: The dark mode toggle, title, and close button are now arranged in a single line to save space.
+## Version 1.7 - Latest Updates
 
-## Video Tutorial
-[![URL Webhook Clipper Tutorial](https://img.youtube.com/vi/Cwjrm6HHJ-s/0.jpg)](https://www.youtube.com/watch?v=Cwjrm6HHJ-s)
+### 🎉 New in Version 1.7
+- ✅ **Complete Modular Architecture**: Refactored into clean, maintainable modules
+- ✅ **Session-Based Persistence**: Form data persists during browser session
+- ✅ **Auto-Save Functionality**: Automatic saving with 500ms debounce
+- ✅ **Clear Form Button**: Manual reset option for form data
+- ✅ **Improved Code Organization**: Separated concerns across 6 specialized modules
+- ✅ **Enhanced Developer Experience**: Better maintainability and extensibility
 
-🔹 **Capture leads, save URLs & automate webhooks seamlessly!**
+## Features
 
----
+- 📋 **Clip URLs**: Capture current tab URL and title
+- 📝 **Add Notes**: Include custom notes with your clips
+- 📎 **Attach Files**: Drag & drop or select files (up to 10MB)
+- 🎨 **Dark Mode**: Automatic theme switching
+- 💾 **Session Persistence**: Form data persists during browser session
+- 🔄 **Multiple Webhooks**: Configure multiple webhook destinations
+- 🏷️ **Templates**: Organize clips with custom templates
+- 📤 **Import/Export**: Backup and restore webhook configurations
+- 🧹 **Clear Form**: Manual reset button for quick cleanup
 
-## 🔥 **Key Features of this Webhook Chrome Extension**
+## Installation
 
-- ✔ **Send URLs Instantly** – Share the current tab’s URL to any webhook.
-- ✔ **Multi-Webhook Support** – Send data to multiple endpoints simultaneously.
-- ✔ **AI & No-Code Automation** – Connect with **Make.com, N8N, and Zapier**.
-- ✔ **Lead Capture to CRM** – Send web leads to **HubSpot, Pipedrive, Salesforce**.
-- ✔ **Task Creation in ClickUp, Slack & Trello** – Convert URLs into tasks.
-- ✔ **Drag & Drop Attachments** – Upload files from Chrome’s download popup.
-- ✔ **Persistent Popup & Dark Mode** – Enhanced UX & theme adaptation.
-- ✔ **Secure & GDPR-Compliant** – Webhook settings are stored locally.
-- ✔ **Import & Export Webhooks** – Easily transfer configurations across devices.
-- ✔ **Invoice Automation** – Send invoices and receipts to **DATEV, QuickBooks, or Google Drive**.
-- ✔ **Send Phone Number to Smartphone** – Select a phone number and send it to your smartphone.
+1. Clone this repository
+2. Open Chrome and navigate to `chrome://extensions/`
+3. Enable "Developer mode"
+4. Click "Load unpacked" and select the extension directory
 
-✅ **Save time, automate repetitive tasks, and streamline your workflow today!**
+## Usage
 
----
+### Basic Workflow
 
-## 📥 **Installation & Setup**
+1. Click the extension icon to open the popup
+2. Select a webhook destination and template
+3. Add notes (optional)
+4. Attach files (optional)
+5. Click "Send to Webhook"
 
-### **Install from Chrome Web Store:**
-👉 chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac
+### Session Persistence (New in v1.7)
 
-### **Manual Installation:**
-1️⃣ Download or clone this repository.
-2️⃣ Open `chrome://extensions/` in Chrome.
-3️⃣ Enable **Developer Mode** (top right corner).
-4️⃣ Click **Load unpacked** and select the extension folder.
+- **Auto-Save**: Form data automatically saves as you type (500ms debounce)
+- **Persistent Fields**: Notes, webhook selection, template selection, and attachments
+- **Session-Only**: Data persists only during browser session (clears on browser restart)
+- **Auto-Clear**: Data automatically clears after successful send or on error
+- **Manual Clear**: Use "Clear Form" button to reset all fields
+- **Dynamic URL**: Current tab URL is always fetched fresh at send time (never stored)
 
----
+### Webhook Configuration
 
-## 🎯 **How It Works – Automate Webhooks in 3 Steps**
+1. Click "⚙️ Configure" to open settings
+2. Add new webhooks with labels and URLs
+3. Create templates for each webhook
+4. Add descriptions to templates for context
+5. Save configurations
 
-1️⃣ **Click the extension icon** in your Chrome toolbar.
-2️⃣ **Select your webhook destination** (e.g., **Make.com, N8N, Slack, ClickUp**).
-3️⃣ **Send your data** – URLs, notes, files, and more!
+### Import/Export
 
-📌 **Perfect for lead capture, task automation, and AI-powered workflows.**
+- **Export**: Backup your webhook configurations to JSON
+- **Import**: Restore configurations from JSON file
 
----
+## File Structure
 
-## 🔧 **Webhook Payload & JSON Format**
-
-The extension sends data in the following JSON format:
-
-```json
-{
-  "url": "https://example.com",
-  "title": "Example Page Title",
-  "notes": "User entered notes",
-  "template": "Lead Capture",
-  "metaDescription": "Meta description of the page",
-  "timestamp": "2024-03-13T20:00:00.000Z",
-  "attachments": [
-    {
-      "name": "document.pdf",
-      "type": "application/pdf",
-      "data": "base64-encoded-content"
-    }
-  ]
-}
+```
+URL-Webhook-Clipper/
+├── manifest.json           # Extension manifest (v1.7)
+├── background.js          # Background service worker
+├── popup/
+│   ├── popup.html        # Main popup UI
+│   ├── popup.js          # Main orchestration script
+│   ├── styles.css        # All styles
+│   └── modules/          # Modular architecture (NEW in v1.7)
+│       ├── storage.js    # Session storage management
+│       ├── theme.js      # Dark mode handling
+│       ├── fileHandler.js # File attachment logic
+│       ├── sender.js     # Webhook sending logic
+│       └── webhookManager.js # Webhook CRUD operations
+├── icons/
+│   ├── icon16.png
+│   ├── icon48.png
+│   └── icon128.png
+└── README.md
 ```
 
-## 📌 **Use Cases**
+## Technical Details
 
-- 🔹 **Capture website leads** and send them to **HubSpot, Pipedrive, or Salesforce**.
-- 🔹 **Automate AI task creation** in **ClickUp, Slack, or Trello**.
-- 🔹 **Send invoices & documents** to **DATEV, QuickBooks, or Google Drive**.
-- 🔹 **Auto-save research links** in **Notion, Airtable, or Google Sheets**.
-- 🔹 **Send phone numbers directly to your smartphone** – Select a phone number and send it to your smartphone.
+### Storage Architecture (v1.7)
 
----
+- **Session Storage** (`chrome.storage.session`): 
+  - Form data (notes, selections, attachments)
+  - Temporary, clears on browser restart
+  - Auto-saves with debouncing
+  
+- **Sync Storage** (`chrome.storage.sync`):
+  - Webhook configurations
+  - Theme preference
+  - Persistent across browser sessions
 
-## 🔒 **Privacy & GDPR Compliance**
+### Permissions
 
-- ✅ **No tracking, no analytics** – 100% privacy-focused.
-- ✅ **Data is stored locally** – Webhook settings never leave your browser.
-- ✅ **Only sends what you explicitly choose** – Total control over your data.
+- `activeTab`: Access current tab information
+- `storage`: Store configurations and session data
+- `scripting`: Extract meta descriptions from pages
+- `contextMenus`: Right-click menu integration
+- `notifications`: User notifications
 
-### 📌 **How to delete stored data?**
+### Supported File Types
 
-1. **Remove webhook configurations**
-2. **Clear browser storage**
-3. **Uninstall the extension**
+- Documents: PDF, DOC, DOCX, XLS, XLSX, TXT
+- Images: JPG, JPEG, PNG, GIF, WEBP, SVG
 
----
+## Development
 
-## 🛠 **Development & Contributions**
+### Module Structure (New in v1.7)
 
-Want to improve **URL Webhook Clipper**? Get involved!
+Each module is self-contained and exports its functionality:
 
-- 📩 **Report issues & suggest features:** [github.com/your-repo/issues](https://github.com/your-repo/issues)
-- 🤝 **Contribute & submit pull requests:** [github.com/your-repo](https://github.com/your-repo)
+- **storage.js**: Handles all session storage operations
+  - Save/load/clear form data
+  - Get current form state
+  - Restore form state to UI
 
----
+- **theme.js**: Manages dark mode state and UI
+  - Initialize theme based on preference
+  - Toggle theme
+  - Update theme icons
 
-## 📌 **Changelog – Latest AI Enhancements**
+- **fileHandler.js**: Processes file attachments
+  - Drag & drop handling
+  - File validation
+  - Attachment management
 
-### **v1.6**
-- ✅ **CORS Fix**: Resolved Cross-Origin Resource Sharing (CORS) errors.
+- **sender.js**: Sends data to webhooks
+  - Fetch current tab info
+  - Prepare payload
+  - Handle webhook responses
 
-### **v1.5**
-- 🚀 **Webhook Response Handling**: The response from Make.com is now displayed in the notes field, enabling the integration of AI Agents.
-- ✅ **Template Description**: You can now add a description for each template to better understand its functionality.
-- ✅ **Layout Changes**: The dark mode toggle, title, and close button are now arranged in a single line to save space.
+- **webhookManager.js**: Manages webhook configurations
+  - CRUD operations for webhooks
+  - Template management
+  - Import/export functionality
 
-### **v1.4**
-- 🚀 **Send Phone Number to Smartphone**: New feature added to send phone numbers from the webpage to your smartphone.
+### Adding New Features
 
-### **v1.3**
-🚀 **New AI & Webhook Automation Features:**
-- ✅ Improved dark mode readability
-- ✅ Enhanced template button visibility
-- ✅ **Import/Export webhook settings**
-- ✅ **Optimized lead capture & invoice automation**
+1. Create a new module in `popup/modules/`
+2. Export functions from the module
+3. Import and initialize in `popup.js`
+4. Add UI elements to `popup.html`
+5. Style in `styles.css`
 
-### **v1.2**
+### Key Design Patterns
+
+- **ES6 Modules**: Clean imports/exports with `type="module"`
+- **Dependency Injection**: Modules communicate through main orchestrator
+- **Separation of Concerns**: Each module handles one responsibility
+- **Debouncing**: Auto-save with 500ms delay to prevent excessive writes
+
+## Changelog
+
+### Version 1.7 (Current)
+- 🎉 Complete modular refactoring
+- ✅ Session-based persistence implementation
+- ✅ Auto-save with debouncing
+- ✅ Clear Form button added
+- ✅ Improved code organization
+- ✅ Enhanced maintainability
+
+### Version 1.6
+- ✅ CORS fix for webhook requests
+- ✅ Webhook response handling in notes field
+- ✅ Template descriptions
+- ✅ Layout improvements
+
+### Version 1.5
+- ✅ AI Agent integration support
+- ✅ Enhanced webhook response display
+- ✅ Template description feature
+
+### Version 1.4
+- ✅ Phone number to smartphone feature
+- ✅ Context menu integration
+
+### Version 1.3
+- ✅ Dark mode improvements
+- ✅ Import/Export functionality
+- ✅ Template visibility enhancements
+
+### Version 1.2
 - ✅ Persistent popup window
 - ✅ Drag & drop file support
-- ✅ GDPR compliance documentation added
-- ✅ Integrated German translation
+- ✅ GDPR compliance documentation
 
----
+## License
 
-## 👤 **About the Developer – Christian Götz**
+MIT License - See LICENSE file for details
 
-👋 **AI & Workflow Automation Expert**
+## Credits
 
-### 📢 **Boost Your Business Community (Free AI & Automation Group)**
-➡ [skool.com/boostyourbusiness/about](https://www.skool.com/boostyourbusiness/about)
+Design by [Lipa LIFE](https://www.lipalife.de)
 
-### 🛠 **Need help with AI automations?**
-📅 **Book a 1:1 Call:** [calendly.com/christiangoetz/60min](https://calendly.com/christiangoetz/60min)
+## Support
 
-### 🚀 **Lipa LIFE – Digital Marketing & AI Automation Agency**
-🌐 **Learn more:** [lipalife.de](https://lipalife.de)
-
-### 🎤 **AI Music – AI-generated tracks on Spotify**
-🎵 **Listen now:** [open.spotify.com/intl-de/artist/4rUKEiC2c4Cr7vVc8F7JbZ](https://open.spotify.com/intl-de/artist/4rUKEiC2c4Cr7vVc8F7JbZ)
-
-### 📸 **Behind-the-scenes AI & automation insights on Instagram**
-📷 [instagram.com/christian__goetz](https://www.instagram.com/christian__goetz/)
-
-### ☕ **Love this AI-powered tool? Support me with a coffee!**
-💰 [paypal.com/donate?business=chris86tian@gmail.com&currency_code=EUR](https://www.paypal.com/donate?business=chris86tian@gmail.com&currency_code=EUR)
-
----
-
-## 💡 **Why Use URL Webhook Clipper for AI Automations?**
-
-- 🚀 **Automate everything** – From lead capture to invoice processing.
-- 🔒 **Privacy-first** – No tracking, all data stays in your browser.
-- 📎 **Supports AI & CRM tools** – Works with **Make.com, N8N, Zapier, Slack, ClickUp & more**.
-- 🔄 **No-Code & AI-driven task automation** – Connects seamlessly with **Notion, Trello, Google Sheets, and Airtable**.
-
-✅ **Try it now and take your AI automation to the next level!**
-👉 [chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac](https://chromewebstore.google.com/detail/url-webhook-clipper/akgfjejofhfldfhijdmndomkcimfngac)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/chris86tian/URL-Webhook-Clipper/issues)
+- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/chris86tian/URL-Webhook-Clipper/discussions)
+- 📧 **Contact**: [Lipa LIFE](https://www.lipalife.de)

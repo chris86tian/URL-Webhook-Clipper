@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>URL Webhook Clipper</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="header">
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
+      <!-- Icon will be inserted via JavaScript -->
+    </button>
+    <h2>URL Webhook Clipper</h2>
+    <button class="close-popup" id="closePopup">×</button>
+  </div>
+  <div class="container">
+    <div class="select-row">
+      <div class="select-group">
+        <label for="webhookSelect">Destination:</label>
+        <select id="webhookSelect"></select>
+      </div>
+      <div class="select-group">
+        <label for="templateSelect">Template:</label>
+        <select id="templateSelect"></select>
+      </div>
+    </div>
+    <div id="templateDescription"></div>
+    <div>
+      <label for="notes">Notes and Responses:</label>
+      <textarea id="notes" placeholder="Enter additional notes..." rows="10"></textarea>
+    </div>
+    <div class="dropzone" id="dropzone">
+      <div class="dropzone-text">
+        Drag & drop files here or click to select
+        <div style="font-size: 12px; margin-top: 4px; color: #9ca3af;">
+          Maximum file size: 10MB
+        </div>
+      </div>
+      <div class="file-list" id="fileList"></div>
+    </div>
+    <div class="button-group">
+      <button id="sendBtn" class="primary-btn">Send to Webhook</button>
+      <button id="clearBtn" class="secondary-btn">Clear</button>
+    </div>
+    <div class="button-row">
+      <button id="settingsBtn" class="settings-btn">⚙️ Configure</button>
+      <a href="https://www.lipalife.de" target="_blank" rel="noopener noreferrer" class="lipa-link">
+        Design by Lipa LIFE
+      </a>
+      <a href="https://github.com/chris86tian/URL-Webhook-Clipper" target="_blank" class="github-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+        </svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+  <div id="status" class="status-bar"></div>
+
+  <!-- Configuration Dialog -->
+  <div id="configDialog" class="config-dialog">
+    <div class="dialog-header">
+      <h2>Configure Webhooks</h2>
+      <button class="close-btn" id="closeConfigBtn">×</button>
+    </div>
+    <div id="webhookList" class="webhook-list">
+      <!-- Webhook items will be inserted here -->
+    </div>
+    <button id="addWebhookBtn" class="add-webhook">+ Add New Webhook</button>
+    <div class="import-export-buttons">
+      <button id="importBtn" class="settings-btn">Import</button>
+      <button id="exportBtn" class="settings-btn">Export</button>
+    </div>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

@@ -1,20 +1,20 @@
 {
   "manifest_version": 3,
   "name": "URL Webhook Clipper",
-  "version": "1.6",
+  "version": "1.7",
   "description": "Send URLs, notes, and files via webhook",
   "permissions": [
     "activeTab",
     "storage",
     "contextMenus",
     "notifications",
-    "scripting" 
+    "scripting"
   ],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "popup/popup.html",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",

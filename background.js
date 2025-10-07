@@ -1,110 +1,36 @@
-// background.js
+// Background service worker for URL Webhook Clipper
+// Handles context menu and other background tasks
+
 chrome.runtime.onInstalled.addListener(() => {
+  console.log('URL Webhook Clipper installed');
+  
+  // Create context menu item
   chrome.contextMenus.create({
-    id: 'sendToWebhook',
-    title: 'Send to Webhook',
-    contexts: ['selection']
+    id: 'clipToWebhook',
+    title: 'Clip to Webhook',
+    contexts: ['page', 'selection', 'link']
   });
-
-  // Load webhooks and create submenu items
-  updateContextMenu();
 });
-
-// Update context menu when storage changes
-chrome.storage.onChanged.addListener((changes) => {
-  if (changes.webhookConfigs) {
-    updateContextMenu();
-  }
-});
-
-function updateContextMenu() {
-  // Remove existing items
-  chrome.contextMenus.removeAll(() => {
-    // Recreate parent menu
-    chrome.contextMenus.create({
-      id: 'sendToWebhook',
-      title: 'Send to Webhook',
-      contexts: ['selection']
-    });
-
-    // Get webhooks from storage
-    chrome.storage.sync.get(['webhookConfigs'], function(result) {
-      const configs = result.webhookConfigs || [];
-      
-      configs.forEach(webhook => {
-        // Create submenu for each webhook
-        chrome.contextMenus.create({
-          id: `webhook-${webhook.id}`,
-          parentId: 'sendToWebhook',
-          title: webhook.label, // Ensure this is a string
-          contexts: ['selection']
-        });
-
-        // Create template items for each webhook
-        webhook.templates.forEach(template => {
-          chrome.contextMenus.create({
-            id: `${webhook.id}-${template.name}`, // Ensure this is a string
-            parentId: `webhook-${webhook.id}`,
-            title: template.name, // Ensure this is a string
-            contexts: ['selection']
-          });
-        });
-      });
-    });
-  });
-}
 
 // Handle context menu clicks
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId.includes('-')) {
-    const [webhookId, template] = info.menuItemId.split('-');
-    const selectedText = info.selectionText;
+  if (info.menuItemId === 'clipToWebhook') {
+    // Open popup when context menu is clicked
+    chrome.action.openPopup();
+  }
+});
 
-    chrome.storage.sync.get(['webhookConfigs'], function(result) {
-      const configs = result.webhookConfigs || [];
-      const webhook = configs.find(w => w.id === webhookId.replace('webhook-', ''));
-
-      if (webhook) {
-        const payload = {
-          url: tab.url,
-          title: tab.title,
-          notes: selectedText, // Set selected text as notes
-          template: template,
-          metaDescription: '', // You may want to fetch this if needed
-          timestamp: new Date().toISOString(),
-          attachments: [] // Set attachments if needed
-        };
-
-        // Fetch request to send the webhook
-        fetch(webhook.url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload)
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          // Show notification on success
-          chrome.notifications.create({
-            type: 'basic',
-            iconUrl: 'icons/icon48.png',
-            title: 'Success',
-            message: 'Text sent to webhook successfully!'
-          });
-        })
-        .catch(error => {
-          // Show notification on error
-          chrome.notifications.create({
-            type: 'basic',
-            iconUrl: 'icons/icon48.png',
-            title: 'Error',
-            message: 'Failed to send text to webhook: ' + error.message
-          });
+// Listen for messages from popup
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === 'getTabInfo') {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs && tabs.length > 0) {
+        sendResponse({
+          url: tabs[0].url,
+          title: tabs[0].title
         });
       }
     });
+    return true; // Keep message channel open for async response
   }
 });
