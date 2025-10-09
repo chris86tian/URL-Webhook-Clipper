@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "URL Webhook Clipper",
-  "version": "1.7",
-  "description": "Send URLs, notes, and files via webhook",
+  "version": "2.0",
+  "description": "Send URLs, notes, and files via webhook or Airtable with right-click context menu",
   "permissions": [
     "activeTab",
     "storage",

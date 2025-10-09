@@ -1,6 +1,6 @@
 body {
   width: 480px;
-  height: 680px;
+  height: 800px;
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -23,7 +23,8 @@ body.dark-mode {
   border-color: #404040;
 }
 
-.dark-mode .webhook-item {
+.dark-mode .webhook-item,
+.dark-mode .airtable-item {
   background-color: #2d2d2d;
   border-color: #404040;
 }
@@ -63,7 +64,8 @@ body.dark-mode {
   color: #e5e5e5;
 }
 
-.dark-mode .add-template {
+.dark-mode .add-template,
+.dark-mode .add-airtable {
   background-color: #3b3b3b;
   color: #e5e5e5;
   border-color: #5a5a5a;
@@ -72,6 +74,55 @@ body.dark-mode {
 .dark-mode .status-bar {
   background-color: #2d2d2d;
   border-top-color: #404040;
+}
+
+.dark-mode .config-tab {
+  background-color: #2d2d2d;
+  color: #a3a3a3;
+  border-color: #404040;
+}
+
+.dark-mode .config-tab.active {
+  background-color: #1a1a1a;
+  color: #e5e5e5;
+  border-bottom-color: #1a1a1a;
+}
+
+.dark-mode .test-feedback {
+  background-color: #2d2d2d;
+  border-color: #404040;
+}
+
+.dark-mode .test-feedback.success {
+  background-color: #1a3a2a;
+  border-color: #10b981;
+  color: #10b981;
+}
+
+.dark-mode .test-feedback.error {
+  background-color: #3a1a1a;
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.dark-mode .test-feedback.testing {
+  background-color: #1a2a3a;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.dark-mode .collapsible-header {
+  background-color: #2d2d2d;
+  border-color: #404040;
+}
+
+.dark-mode .collapsible-header:hover {
+  background-color: #363636;
+}
+
+.dark-mode .destination-select optgroup {
+  background-color: #2d2d2d;
+  color: #9ca3af;
 }
 
 .theme-toggle {
@@ -119,14 +170,99 @@ h2 {
   overflow-x: hidden;
 }
 
+/* 🎨 KONZEPT A: Destination Section Styling */
+.destination-section {
+  margin-bottom: 8px;
+}
+
+.destination-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.dark-mode .destination-section label {
+  color: #9ca3af;
+}
+
+.destination-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234b5563' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.destination-select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.destination-select:hover {
+  border-color: #d1d5db;
+}
+
+.dark-mode .destination-select {
+  background-color: #2d2d2d;
+  border-color: #404040;
+  color: #e5e5e5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239ca3af' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+}
+
+.destination-select optgroup {
+  font-weight: 600;
+  font-size: 12px;
+  color: #6b7280;
+  padding: 8px 0;
+  background-color: #f9fafb;
+}
+
+.dark-mode .destination-select optgroup {
+  background-color: #2d2d2d;
+  color: #9ca3af;
+}
+
+.destination-select option {
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+/* Dynamic Content Area */
+#dynamicContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: opacity 0.2s ease;
+}
+
+#dynamicContent.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .select-row {
   display: flex;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .select-group {
   flex: 1;
+}
+
+.template-group {
+  margin-bottom: 8px;
 }
 
 input, textarea, select {
@@ -135,6 +271,13 @@ input, textarea, select {
   border: 1px solid #ddd;
   border-radius: 4px;
   box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 textarea {
@@ -151,16 +294,47 @@ button {
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
-button:hover {
+button:hover:not(:disabled) {
   background-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 button:disabled {
   background-color: #9ca3af;
   cursor: not-allowed;
+  opacity: 0.6;
+}
+
+button.loading {
+  pointer-events: none;
+}
+
+button.loading::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spinner 0.6s linear infinite;
+}
+
+@keyframes spinner {
+  to { transform: rotate(360deg); }
 }
 
 .button-group {
@@ -257,6 +431,7 @@ label {
   color: #4b5563;
   display: block;
   margin-bottom: 4px;
+  font-weight: 500;
 }
 
 .close-popup {
@@ -305,16 +480,64 @@ label {
   color: #4b5563;
 }
 
-.webhook-list {
+/* Config Tabs */
+.config-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.config-tab {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: #6b7280;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s ease;
+}
+
+.config-tab:hover {
+  color: #2563eb;
+  background-color: #f3f4f6;
+}
+
+.config-tab.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+  background: none;
+}
+
+.webhook-list,
+.airtable-list {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.webhook-item {
+.webhook-item,
+.airtable-item {
   border: 1px solid #e5e7eb;
   padding: 12px;
   border-radius: 6px;
+  transition: box-shadow 0.2s ease;
+}
+
+.webhook-item:hover,
+.airtable-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.config-section {
+  margin-bottom: 12px;
+}
+
+.config-section label {
+  font-weight: 500;
+  margin-bottom: 4px;
 }
 
 .template-list {
@@ -332,6 +555,11 @@ label {
   display: flex;
   align-items: center;
   gap: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.template-tag:hover {
+  background: #d1d5db;
 }
 
 .template-tag button {
@@ -343,7 +571,8 @@ label {
   cursor: pointer;
 }
 
-.add-template {
+.add-template,
+.add-airtable {
   background: none;
   border: 1px dashed #d1d5db;
   padding: 4px 8px;
@@ -351,9 +580,18 @@ label {
   color: #6b7280;
   cursor: pointer;
   font-size: 12px;
+  transition: all 0.2s ease;
 }
 
-.add-webhook {
+.add-template:hover,
+.add-airtable:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.add-webhook,
+.add-airtable {
   margin-top: 16px;
 }
 
@@ -384,6 +622,7 @@ label {
 .dropzone.dragover {
   border-color: #2563eb;
   background-color: #eff6ff;
+  transform: scale(1.02);
 }
 
 .dropzone-text {
@@ -403,6 +642,11 @@ label {
   background-color: #f3f4f6;
   border-radius: 4px;
   margin-bottom: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.file-item:hover {
+  background-color: #e5e7eb;
 }
 
 .file-name {
@@ -425,6 +669,11 @@ label {
   cursor: pointer;
   padding: 2px;
   font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.remove-file:hover {
+  transform: scale(1.2);
 }
 
 .button-row {
@@ -436,8 +685,12 @@ label {
 
 .import-export-buttons {
   display: flex;
-  justify-content: space-between;
+  gap: 8px;
   margin-top: 16px;
+}
+
+.import-export-buttons button {
+  flex: 1;
 }
 
 #templateDescription {
@@ -462,4 +715,411 @@ label {
   flex-grow: 1;
   font-size: 12px;
   padding: 2px 4px;
+}
+
+/* Test Connection Feedback */
+.test-feedback {
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  animation: slideDown 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.test-feedback.visible {
+  display: flex;
+}
+
+.test-feedback.success {
+  background-color: #dcfce7;
+  color: #166534;
+  border-color: #10b981;
+}
+
+.test-feedback.error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #ef4444;
+}
+
+.test-feedback.testing {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border-color: #3b82f6;
+}
+
+.test-feedback-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.test-feedback-message {
+  flex: 1;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Collapsible Field Mappings */
+.collapsible-section {
+  margin-top: 16px;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 12px;
+}
+
+.collapsible-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.collapsible-header:hover {
+  background-color: #f3f4f6;
+}
+
+.collapsible-header h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.collapsible-icon {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+  color: #6b7280;
+}
+
+.collapsible-header.collapsed .collapsible-icon {
+  transform: rotate(-90deg);
+}
+
+.collapsible-content {
+  max-height: 1000px;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+}
+
+.collapsible-content.collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* Field Mappings Section */
+.field-mappings-section {
+  margin-top: 12px;
+}
+
+.field-mappings {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-mapping-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.field-mapping-row label {
+  min-width: 120px;
+  font-size: 13px;
+  margin: 0;
+}
+
+.field-mapping {
+  flex: 1;
+  font-size: 13px;
+  padding: 6px;
+}
+
+/* Test Connection Button */
+.test-connection,
+.fetch-fields {
+  background-color: #10b981;
+  font-size: 13px;
+}
+
+.test-connection:hover:not(:disabled),
+.fetch-fields:hover:not(:disabled) {
+  background-color: #059669;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.button-group button {
+  flex: 1;
+}
+
+/* Rate Limit Countdown */
+.rate-limit-info {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #92400e;
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.rate-limit-info.visible {
+  display: flex;
+}
+
+.rate-limit-icon {
+  font-size: 14px;
+}
+
+.dark-mode .rate-limit-info {
+  background-color: #3a2a1a;
+  border-color: #fbbf24;
+  color: #fbbf24;
+}
+
+/* Airtable Custom Fields Alignment Fix */
+.divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 16px 0;
+}
+
+.dark-mode .divider {
+  border-top-color: #404040;
+}
+
+.custom-fields-selector h5 {
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.dark-mode .custom-fields-selector h5 {
+  color: #e5e5e5;
+}
+
+.custom-fields-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.custom-field-checkbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.custom-field-checkbox label {
+  order: 1;
+  font-size: 14px;
+  cursor: pointer;
+  color: #374151;
+  padding-right: 16px;
+}
+
+.dark-mode .custom-field-checkbox label {
+    color: #e5e5e5;
+}
+
+.custom-field-checkbox input[type="checkbox"] {
+  order: 2;
+  margin: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Info State Messages */
+.info-state {
+  padding: 16px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.dark-mode .info-state {
+  background-color: #2d2d2d;
+  border-color: #404040;
+  color: #9ca3af;
+}
+
+.info-state.error {
+  background-color: #fee2e2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+.dark-mode .info-state.error {
+  background-color: #3a1a1a;
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* 🎨 APPLE-STYLE FORM GROUP - CLEAN VERTICAL LAYOUT */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.dark-mode .form-group label {
+  color: #9ca3af;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234b5563' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.dark-mode .form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239ca3af' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+}
+
+.form-group select[multiple] {
+  background-image: none;
+  padding-right: 12px;
+  min-height: 100px;
+}
+
+/* Checkbox Group - Special Layout */
+.form-group.checkbox-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+.form-group.checkbox-group label {
+  margin: 0;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+/* Number Input Styling */
+.form-group input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Date/DateTime Input Styling */
+.form-group input[type="date"],
+.form-group input[type="datetime-local"] {
+  cursor: pointer;
+}
+
+/* Loader */
+.loader {
+  display: none;
+  text-align: center;
+  padding: 16px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.loader.visible {
+  display: block;
+}
+
+.dark-mode .loader {
+  color: #9ca3af;
+}
+
+/* 🎨 AIRTABLE FIELD MAPPINGS CONTAINER */
+#airtableFieldMappings {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 12px;
+}
+
+#airtableFieldMappings .form-group {
+  margin-bottom: 12px;
+}
+
+#airtableFieldMappings .form-group:last-child {
+  margin-bottom: 0;
 }

@@ -14,22 +14,20 @@
     <button class="close-popup" id="closePopup">×</button>
   </div>
   <div class="container">
-    <div class="select-row">
-      <div class="select-group">
-        <label for="webhookSelect">Destination:</label>
-        <select id="webhookSelect"></select>
-      </div>
-      <div class="select-group">
-        <label for="templateSelect">Template:</label>
-        <select id="templateSelect"></select>
-      </div>
+    <!-- 🎯 KONZEPT A: Unified Destination Selector -->
+    <div class="destination-section">
+      <label for="destinationSelect">Destination:</label>
+      <select id="destinationSelect" class="destination-select">
+        <option value="">Select destination...</option>
+      </select>
     </div>
-    <div id="templateDescription"></div>
-    <div>
-      <label for="notes">Notes and Responses:</label>
-      <textarea id="notes" placeholder="Enter additional notes..." rows="10"></textarea>
+
+    <!-- Dynamic Content Area -->
+    <div id="dynamicContent">
+      <!-- Content will be rendered based on destination selection -->
     </div>
-    <div class="dropzone" id="dropzone">
+
+    <div class="dropzone" id="dropzone" style="display: none;">
       <div class="dropzone-text">
         Drag & drop files here or click to select
         <div style="font-size: 12px; margin-top: 4px; color: #9ca3af;">
@@ -38,10 +36,12 @@
       </div>
       <div class="file-list" id="fileList"></div>
     </div>
+
     <div class="button-group">
-      <button id="sendBtn" class="primary-btn">Send to Webhook</button>
+      <button id="sendBtn" class="primary-btn">Send</button>
       <button id="clearBtn" class="secondary-btn">Clear</button>
     </div>
+
     <div class="button-row">
       <button id="settingsBtn" class="settings-btn">⚙️ Configure</button>
       <a href="https://www.lipalife.de" target="_blank" rel="noopener noreferrer" class="lipa-link">
@@ -60,13 +60,29 @@
   <!-- Configuration Dialog -->
   <div id="configDialog" class="config-dialog">
     <div class="dialog-header">
-      <h2>Configure Webhooks</h2>
+      <h2>Configure Destinations</h2>
       <button class="close-btn" id="closeConfigBtn">×</button>
     </div>
+
+    <!-- Tab Navigation -->
+    <div class="config-tabs">
+      <button class="config-tab active" id="webhooksTab">Webhooks</button>
+      <button class="config-tab" id="airtableTab">Airtable</button>
+    </div>
+
+    <!-- Webhooks Tab Content -->
     <div id="webhookList" class="webhook-list">
       <!-- Webhook items will be inserted here -->
     </div>
     <button id="addWebhookBtn" class="add-webhook">+ Add New Webhook</button>
+
+    <!-- Airtable Tab Content -->
+    <div id="airtableList" class="airtable-list" style="display: none;">
+      <!-- Airtable Base Connection items will be inserted here -->
+    </div>
+    <button id="addAirtableBtn" class="add-airtable" style="display: none;">+ Add Airtable Base</button>
+
+    <!-- Import/Export Buttons -->
     <div class="import-export-buttons">
       <button id="importBtn" class="settings-btn">Import</button>
       <button id="exportBtn" class="settings-btn">Export</button>
