@@ -1,7 +1,7 @@
 /**
- * Background Service Worker - Version 2.0.2
+ * Background Service Worker - Version 2.0.6
  * Handles context menu and storage monitoring
- * FIX: Added webhook templates as submenu items
+ * FEATURE: Context menu sends same data as popup (selected text, meta description)
  */
 
 let destinations = [];
@@ -11,7 +11,7 @@ let webhookConfigs = [];
 chrome.runtime.onStartup.addListener(loadDestinations);
 chrome.runtime.onInstalled.addListener(async () => {
   await loadDestinations();
-  console.log('✅ [BACKGROUND v2.0.2] Extension installed, context menu created');
+  console.log('✅ [BACKGROUND v2.0.6] Extension installed, context menu created');
 });
 
 // Load destinations from storage
@@ -190,30 +190,71 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     
     console.log('📤 [BACKGROUND] Sending to:', destination.name);
     
-    // Prepare payload
+    // ✅ Extract page content (same as popup)
+    let pageUrl = tab.url;
+    let pageTitle = tab.title;
+    let selectedText = info.selectionText || '';
+    let metaDescription = '';
+    
+    // Try to get meta description from page
+    const isRestrictedUrl = tab.url.startsWith('chrome://') || 
+                           tab.url.startsWith('edge://') || 
+                           tab.url.startsWith('about:');
+    
+    if (!isRestrictedUrl) {
+      try {
+        const results = await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: () => {
+            return {
+              metaDescription: document.querySelector('meta[name="description"]')?.content || '',
+              pageUrl: window.location.href,
+              pageTitle: document.title
+            };
+          }
+        });
+        
+        if (results?.[0]?.result) {
+          metaDescription = results[0].result.metaDescription;
+          // Use extracted URL/title if available (more accurate than tab API)
+          pageUrl = results[0].result.pageUrl || pageUrl;
+          pageTitle = results[0].result.pageTitle || pageTitle;
+        }
+        
+        console.log('✅ [BACKGROUND] Page content extracted:', {
+          url: pageUrl,
+          title: pageTitle,
+          metaDescription: metaDescription ? 'Found' : 'Not found',
+          selectedText: selectedText ? `${selectedText.length} chars` : 'None'
+        });
+        
+      } catch (error) {
+        console.warn('⚠️ [BACKGROUND] Could not extract page content:', error.message);
+      }
+    } else {
+      console.log('⚠️ [BACKGROUND] Restricted URL, using tab API data only');
+    }
+    
+    // ✅ Build payload (SAME structure as popup)
     const payload = {
-      url: info.linkUrl || info.srcUrl || tab.url,
-      title: tab.title,
-      notes: info.selectionText || '',
-      timestamp: new Date().toISOString(),
-      contextType: info.contexts?.[0] || 'page'
+      url: pageUrl,
+      title: pageTitle,
+      notes: selectedText,
+      metaDescription: metaDescription,
+      timestamp: new Date().toISOString()
     };
     
-    // Try to get meta description
-    try {
-      const results = await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func: () => document.querySelector('meta[name="description"]')?.content || ''
-      });
-      payload.metaDescription = results?.[0]?.result || '';
-    } catch (error) {
-      console.warn('⚠️ [BACKGROUND] Could not get meta description:', error.message);
-    }
+    console.log('📤 [BACKGROUND] Payload prepared:', {
+      url: payload.url,
+      title: payload.title,
+      notesLength: payload.notes.length,
+      hasMetaDescription: !!payload.metaDescription
+    });
     
     // Send to destination
     try {
       if (destination.type === 'webhook') {
-        await sendToWebhook(destination.webhookId, destination.templateName, payload);
+        await sendToWebhook(destination, payload);
       } else if (destination.type === 'airtable') {
         await sendToAirtable(destination, payload);
       }
@@ -238,26 +279,49 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   }
 });
 
+// Format timestamp in German locale
+function formatTimestamp(date) {
+  const options = {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  };
+  return date.toLocaleDateString('de-DE', options);
+}
+
 // Send to webhook
-async function sendToWebhook(webhookId, templateName, payload) {
-  const webhook = webhookConfigs.find(w => w.id === webhookId);
+async function sendToWebhook(destination, payload) {
+  // Use webhookId from destination structure
+  const webhook = webhookConfigs.find(w => w.id === destination.webhookId);
   
   if (!webhook?.url) {
     throw new Error('Webhook configuration not found');
   }
   
-  // Add template name to payload if specified
-  if (templateName) {
-    payload.template = templateName;
-  }
+  // ✅ Build payload with SAME structure as popup
+  const webhookPayload = {
+    url: payload.url,
+    title: payload.title,
+    notes: payload.notes,
+    template: destination.templateName || '',
+    metaDescription: payload.metaDescription || '',
+    timestamp: formatTimestamp(new Date()),
+    attachments: []  // Context menu has no file attachments
+  };
+  
+  console.log('📤 [BACKGROUND] Webhook payload:', webhookPayload);
   
   const response = await fetch(webhook.url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(webhookPayload)
   });
   
   if (!response.ok) {
+    const errorText = await response.text();
+    console.error('❌ [BACKGROUND] Webhook error response:', errorText);
     throw new Error(`Webhook failed: ${response.status} ${response.statusText}`);
   }
   
@@ -330,4 +394,4 @@ chrome.storage.local.onChanged.addListener((changes) => {
   }
 });
 
-console.log('✅ [BACKGROUND v2.0.2] Service worker initialized with template support');
+console.log('✅ [BACKGROUND v2.0.6] Service worker initialized - context menu sends same data as popup');
