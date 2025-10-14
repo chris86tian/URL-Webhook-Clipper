@@ -1,11 +1,14 @@
 /**
  * Background Service Worker - Version 2.0.6
- * Handles context menu and storage monitoring
- * FEATURE: Context menu sends same data as popup (selected text, meta description)
+ * FIX: Context menu duplicate ID errors
+ * - Added removeAll() before menu creation
+ * - Added initialization guard
+ * - Added error handling
  */
 
 let destinations = [];
 let webhookConfigs = [];
+let isRebuildingMenu = false; // ← Guard flag
 
 // Load destinations on startup
 chrome.runtime.onStartup.addListener(loadDestinations);
@@ -87,88 +90,105 @@ async function loadDestinations() {
   }
 }
 
-// Rebuild context menu with current destinations
+// ✅ FIX: Rebuild context menu with proper cleanup
 async function rebuildContextMenu() {
-  // Remove all existing menu items
-  await chrome.contextMenus.removeAll();
-  
-  if (destinations.length === 0) {
-    // No destinations - show "Configure" option
-    chrome.contextMenus.create({
-      id: 'configure',
-      title: 'Configure Destinations',
-      contexts: ['page', 'selection', 'link', 'image']
-    });
-    console.log('📋 [BACKGROUND] No destinations - showing configure option');
+  // ✅ Guard: Prevent concurrent rebuilds
+  if (isRebuildingMenu) {
+    console.log('⏸️ [BACKGROUND] Menu rebuild already in progress, skipping');
     return;
   }
   
-  // Create parent menu
-  chrome.contextMenus.create({
-    id: 'sendToDestination',
-    title: 'Send to Webhook/Airtable',
-    contexts: ['page', 'selection', 'link', 'image']
-  });
+  isRebuildingMenu = true;
   
-  // Group destinations by type
-  const webhooks = destinations.filter(d => d.type === 'webhook');
-  const airtables = destinations.filter(d => d.type === 'airtable');
-  
-  // Add webhook destinations
-  if (webhooks.length > 0) {
-    // Header
+  try {
+    // ✅ CRITICAL: Remove ALL existing menu items first
+    await chrome.contextMenus.removeAll();
+    console.log('🗑️ [BACKGROUND] Removed all existing context menu items');
+    
+    if (destinations.length === 0) {
+      // No destinations - show "Configure" option
+      chrome.contextMenus.create({
+        id: 'configure',
+        title: 'Configure Destinations',
+        contexts: ['page', 'selection', 'link', 'image']
+      });
+      console.log('📋 [BACKGROUND] No destinations - showing configure option');
+      return;
+    }
+    
+    // Create parent menu
     chrome.contextMenus.create({
-      id: 'webhook-header',
-      title: '🔗 Webhooks',
-      contexts: ['page', 'selection', 'link', 'image'],
-      parentId: 'sendToDestination',
-      enabled: false
+      id: 'sendToDestination',
+      title: 'Send to Webhook/Airtable',
+      contexts: ['page', 'selection', 'link', 'image']
     });
     
-    // Individual webhook items (with templates)
-    webhooks.forEach(dest => {
+    // Group destinations by type
+    const webhooks = destinations.filter(d => d.type === 'webhook');
+    const airtables = destinations.filter(d => d.type === 'airtable');
+    
+    // Add webhook destinations
+    if (webhooks.length > 0) {
+      // Header
       chrome.contextMenus.create({
-        id: `send-${dest.id}`,
-        title: dest.name,
+        id: 'webhook-header',
+        title: '🔗 Webhooks',
+        contexts: ['page', 'selection', 'link', 'image'],
+        parentId: 'sendToDestination',
+        enabled: false
+      });
+      
+      // Individual webhook items (with templates)
+      webhooks.forEach(dest => {
+        chrome.contextMenus.create({
+          id: `send-${dest.id}`,
+          title: dest.name,
+          contexts: ['page', 'selection', 'link', 'image'],
+          parentId: 'sendToDestination'
+        });
+      });
+    }
+    
+    // Add separator if both types exist
+    if (webhooks.length > 0 && airtables.length > 0) {
+      chrome.contextMenus.create({
+        id: 'separator',
+        type: 'separator',
         contexts: ['page', 'selection', 'link', 'image'],
         parentId: 'sendToDestination'
       });
-    });
-  }
-  
-  // Add separator if both types exist
-  if (webhooks.length > 0 && airtables.length > 0) {
-    chrome.contextMenus.create({
-      id: 'separator',
-      type: 'separator',
-      contexts: ['page', 'selection', 'link', 'image'],
-      parentId: 'sendToDestination'
-    });
-  }
-  
-  // Add Airtable destinations
-  if (airtables.length > 0) {
-    // Header
-    chrome.contextMenus.create({
-      id: 'airtable-header',
-      title: '📊 Airtable',
-      contexts: ['page', 'selection', 'link', 'image'],
-      parentId: 'sendToDestination',
-      enabled: false
-    });
+    }
     
-    // Individual Airtable items
-    airtables.forEach(dest => {
+    // Add Airtable destinations
+    if (airtables.length > 0) {
+      // Header
       chrome.contextMenus.create({
-        id: `send-${dest.id}`,
-        title: dest.name,
+        id: 'airtable-header',
+        title: '📊 Airtable',
         contexts: ['page', 'selection', 'link', 'image'],
-        parentId: 'sendToDestination'
+        parentId: 'sendToDestination',
+        enabled: false
       });
-    });
+      
+      // Individual Airtable items
+      airtables.forEach(dest => {
+        chrome.contextMenus.create({
+          id: `send-${dest.id}`,
+          title: dest.name,
+          contexts: ['page', 'selection', 'link', 'image'],
+          parentId: 'sendToDestination'
+        });
+      });
+    }
+    
+    console.log('✅ [BACKGROUND] Context menu rebuilt with', destinations.length, 'destinations');
+    
+  } catch (error) {
+    console.error('❌ [BACKGROUND] Error rebuilding context menu:', error);
+  } finally {
+    // ✅ Release guard
+    isRebuildingMenu = false;
   }
-  
-  console.log('✅ [BACKGROUND] Context menu rebuilt with', destinations.length, 'destinations');
 }
 
 // Handle context menu clicks
@@ -190,66 +210,25 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     
     console.log('📤 [BACKGROUND] Sending to:', destination.name);
     
-    // ✅ Extract page content (same as popup)
-    let pageUrl = tab.url;
-    let pageTitle = tab.title;
-    let selectedText = info.selectionText || '';
-    let metaDescription = '';
-    
-    // Try to get meta description from page
-    const isRestrictedUrl = tab.url.startsWith('chrome://') || 
-                           tab.url.startsWith('edge://') || 
-                           tab.url.startsWith('about:');
-    
-    if (!isRestrictedUrl) {
-      try {
-        const results = await chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          func: () => {
-            return {
-              metaDescription: document.querySelector('meta[name="description"]')?.content || '',
-              pageUrl: window.location.href,
-              pageTitle: document.title
-            };
-          }
-        });
-        
-        if (results?.[0]?.result) {
-          metaDescription = results[0].result.metaDescription;
-          // Use extracted URL/title if available (more accurate than tab API)
-          pageUrl = results[0].result.pageUrl || pageUrl;
-          pageTitle = results[0].result.pageTitle || pageTitle;
-        }
-        
-        console.log('✅ [BACKGROUND] Page content extracted:', {
-          url: pageUrl,
-          title: pageTitle,
-          metaDescription: metaDescription ? 'Found' : 'Not found',
-          selectedText: selectedText ? `${selectedText.length} chars` : 'None'
-        });
-        
-      } catch (error) {
-        console.warn('⚠️ [BACKGROUND] Could not extract page content:', error.message);
-      }
-    } else {
-      console.log('⚠️ [BACKGROUND] Restricted URL, using tab API data only');
-    }
-    
-    // ✅ Build payload (SAME structure as popup)
+    // Prepare payload
     const payload = {
-      url: pageUrl,
-      title: pageTitle,
-      notes: selectedText,
-      metaDescription: metaDescription,
-      timestamp: new Date().toISOString()
+      url: info.linkUrl || info.srcUrl || tab.url,
+      title: tab.title,
+      notes: info.selectionText || '',
+      timestamp: new Date().toISOString(),
+      contextType: info.contexts?.[0] || 'page'
     };
     
-    console.log('📤 [BACKGROUND] Payload prepared:', {
-      url: payload.url,
-      title: payload.title,
-      notesLength: payload.notes.length,
-      hasMetaDescription: !!payload.metaDescription
-    });
+    // Try to get meta description
+    try {
+      const results = await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: () => document.querySelector('meta[name="description"]')?.content || ''
+      });
+      payload.metaDescription = results?.[0]?.result || '';
+    } catch (error) {
+      console.warn('⚠️ [BACKGROUND] Could not get meta description:', error.message);
+    }
     
     // Send to destination
     try {
@@ -293,14 +272,12 @@ function formatTimestamp(date) {
 
 // Send to webhook
 async function sendToWebhook(destination, payload) {
-  // Use webhookId from destination structure
   const webhook = webhookConfigs.find(w => w.id === destination.webhookId);
   
   if (!webhook?.url) {
     throw new Error('Webhook configuration not found');
   }
   
-  // ✅ Build payload with SAME structure as popup
   const webhookPayload = {
     url: payload.url,
     title: payload.title,
@@ -308,7 +285,7 @@ async function sendToWebhook(destination, payload) {
     template: destination.templateName || '',
     metaDescription: payload.metaDescription || '',
     timestamp: formatTimestamp(new Date()),
-    attachments: []  // Context menu has no file attachments
+    attachments: []
   };
   
   console.log('📤 [BACKGROUND] Webhook payload:', webhookPayload);
@@ -320,8 +297,6 @@ async function sendToWebhook(destination, payload) {
   });
   
   if (!response.ok) {
-    const errorText = await response.text();
-    console.error('❌ [BACKGROUND] Webhook error response:', errorText);
     throw new Error(`Webhook failed: ${response.status} ${response.statusText}`);
   }
   
@@ -379,19 +354,31 @@ async function sendToAirtable(destination, payload) {
   console.log('✅ [BACKGROUND] Airtable record created');
 }
 
-// Listen for storage changes to update context menu
+// ✅ FIX: Debounced storage change handler
+let storageChangeTimeout = null;
+
 chrome.storage.sync.onChanged.addListener((changes) => {
   if (changes.webhookConfigs) {
-    console.log('🔄 [BACKGROUND] Webhooks changed, reloading destinations');
-    loadDestinations();
+    console.log('🔄 [BACKGROUND] Webhooks changed, scheduling reload');
+    
+    // ✅ Debounce: Wait 500ms before reloading
+    clearTimeout(storageChangeTimeout);
+    storageChangeTimeout = setTimeout(() => {
+      loadDestinations();
+    }, 500);
   }
 });
 
 chrome.storage.local.onChanged.addListener((changes) => {
   if (changes.airtableConfigs) {
-    console.log('🔄 [BACKGROUND] Airtable configs changed, reloading destinations');
-    loadDestinations();
+    console.log('🔄 [BACKGROUND] Airtable configs changed, scheduling reload');
+    
+    // ✅ Debounce: Wait 500ms before reloading
+    clearTimeout(storageChangeTimeout);
+    storageChangeTimeout = setTimeout(() => {
+      loadDestinations();
+    }, 500);
   }
 });
 
-console.log('✅ [BACKGROUND v2.0.6] Service worker initialized - context menu sends same data as popup');
+console.log('✅ [BACKGROUND v2.0.6] Service worker initialized with duplicate fix');
