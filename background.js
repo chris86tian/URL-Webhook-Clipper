@@ -10,6 +10,9 @@ let destinations = [];
 let webhookConfigs = [];
 let isRebuildingMenu = false; // ← Guard flag
 
+// Service workers are ephemeral; hydrate in-memory caches on startup.
+loadDestinations({ rebuildMenu: true });
+
 // Load destinations on startup
 chrome.runtime.onStartup.addListener(loadDestinations);
 chrome.runtime.onInstalled.addListener(async () => {
@@ -18,7 +21,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 });
 
 // Load destinations from storage
-async function loadDestinations() {
+async function loadDestinations({ rebuildMenu = true } = {}) {
   try {
     // Load webhooks from sync storage
     const syncData = await chrome.storage.sync.get(['webhookConfigs']);
@@ -82,8 +85,10 @@ async function loadDestinations() {
       airtable: airtableDestinations.length
     });
     
-    // Rebuild context menu
-    await rebuildContextMenu();
+    // Rebuild context menu when called from lifecycle/storage updates.
+    if (rebuildMenu) {
+      await rebuildContextMenu();
+    }
     
   } catch (error) {
     console.error('❌ [BACKGROUND] Error loading destinations:', error);
@@ -201,6 +206,9 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   
   if (info.menuItemId.startsWith('send-')) {
     const destinationId = info.menuItemId.replace('send-', '');
+
+    // Context menu clicks can wake a cold service worker; reload from storage first.
+    await loadDestinations({ rebuildMenu: false });
     const destination = destinations.find(d => d.id === destinationId);
     
     if (!destination) {
